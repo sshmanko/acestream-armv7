@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Ace Stream</title>
+        <script src="/webui/javascript/jquery-1.10.2.min.js"></script>
+        <script>
+        var params_ = {{params}},
+            download_url_,
+            stat_url_;
+        </script>
+    </head>
+    <body>
+    
+        <a id="btn-start-download" href="#" style="display: none;">start download</a>
+        
+        <hr/>
+        <div id="download-status"></div>
+    
+        <script>
+        $("#btn-start-download").click(function() {
+                start_download();
+                return false;
+        });
+        
+        if(params_.infohash) {
+            download_url_ = location.protocol + "//" + location.host + "/ace/getstream?infohash=" + params_.infohash + "&mode=download&cas=" + params_.cas;
+            $("#btn-start-download").show();
+        }
+        
+        function start_download()
+        {
+            $.ajax({
+                    url: download_url_ + "&format=json",
+                    type: 'GET',
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    error: function(request, error_string, exception) {
+                        console.log("request_stat_url: failed");
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if(response.playback_url) {
+                            location.href = response.playback_url;
+                        }
+                        if(response.stat_url) {
+                            stat_url_ = response.stat_url;
+                            monitor();
+                        }
+                    }
+            });
+        }
+        
+        function monitor()
+        {
+            $.ajax({
+                    url: stat_url_,
+                    type: 'GET',
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    error: function(request, error_string, exception) {
+                        setTimeout(monitor, 5000);
+                    },
+                    success: function(response) {
+                        if(response.error) {
+                            console.log("monitor: error: " + response.error);
+                            $("#download-status").html("download stopped");
+                        }
+                        else {
+                            var html = "";
+                            html += "Progress: " + response.response.total_progress + "%<br/>";
+                            html += "Peers: " + response.response.peers + "<br/>";
+                            html += "Download speed: " + response.response.speed_down + " Kbps<br/>";
+                            $("#download-status").html(html);
+                            setTimeout(monitor, 1000);
+                        }
+                    }
+            });
+        }
+        </script>
+    </body>
+</html>

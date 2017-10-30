@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title class="translate" data-string-id="page-title"></title>
+        <link rel="icon" type="image/x-icon" href="/webui/images/favicon.ico">
+        
+        <script src="/webui/javascript/jquery-1.10.2.min.js"></script>
+        <script src="/webui/javascript/jquery-ui.min.js"></script>
+        <script src="/webui/javascript/strftime.min.js"></script>
+        <script src="/webui/javascript/server.js"></script>
+        <script src="/webui/javascript/bootstrap.js"></script>
+        <script src="/webui/javascript/uniform.js"></script>
+        <script src="/webui/javascript/jquery.sticky.js"></script>
+        <script src="/webui/javascript/proxy_server.js"></script>
+        <script src="/webui/javascript/broadcasting.js"></script>
+        <script src="/webui/javascript/lang.js"></script>
+        <script src="/webui/javascript/lang.ru_RU.js"></script>
+        <script src="/webui/javascript/lang.en_EN.js"></script>
+        
+        <link rel="stylesheet" href="/webui/css/jquery-ui.css" />
+        <link rel="stylesheet" href="/webui/css/common.css" />
+        
+        <link rel="stylesheet" href="/webui/css/bootstrap.css">
+        <link rel="stylesheet" href="/webui/css/bootstrap-responsive.css">							
+        <link rel="stylesheet" href="/webui/css/uniform.css">
+        <link rel="stylesheet" href="/webui/css/unicorn.css">
+        <link rel="stylesheet" href="/webui/css/style.css">
+        <link rel="stylesheet" href="/webui/css/gritter.css">
+        <link rel="stylesheet" href="/webui/css/ace-style.css">
+        <link rel="stylesheet" href="/webui/css/popup.css">
+        <link rel="stylesheet" href="/webui/css/css.css">
+        <link rel="stylesheet" href="/webui/css/light.css">
+        <link rel="stylesheet" href="/webui/css/media.css">
+        <link rel="stylesheet" href="/webui/css/scroll.css">
+        <link rel="stylesheet" href="/webui/css/ie.css">
+        <link rel="stylesheet" href="/webui/css/slide-menu.css">
+        
+        <script>
+        // global vars
+        var params = {{params}};
+        
+        function playlist_item_added() {
+            close_iframe();
+        }
+        
+        function close_iframe() {
+            window.parent.postMessage({
+                    acestream: {
+                        msg: "close_iframe_playlist_add_item"
+                    }
+            }, "*");
+        }
+        </script>
+    
+    </head>
+    <body style="margin: 0; padding: 0;">
+        <div id="notification" style="top: 0;">test</div>
+        
+        <div style="width: 100%; height: 50px; background-color: #444;">
+            <img src="/webui/images/logo2.png" alt="Ace Stream" />
+        </div>
+        
+        <div class="container-fluid" style="margin: 5px auto; width: 95%; padding: 0;">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="widget-box">
+						<div class="widget-content" style="padding-bottom: 0;">
+                            <div class="form-horizontal">
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="category"></span>:</label>
+                                    <div class="controls">
+                                        <select name="category" id="playlist-add-item-category">
+                                            <option value="Movies" class="translate" data-string-id="movies"></option>
+                                            <option value="TV" class="translate" data-string-id="tv"></option>
+                                            <option value="Music" class="translate" data-string-id="music"></option>
+                                            <option value="Other" class="translate" data-string-id="other"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="subcategory"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="playlist-add-item-subcategory" name="subcategory" value="" />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="title"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="playlist-add-item-title" name="title" value="" />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="content-id"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="playlist-add-item-content-id" name="id" value="" />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group" id="infohash-input">
+                                    <label class="control-label translate" data-string-id="magnet-infohash"></label>
+                                    <div class="controls">
+                                        <input type="text" id="playlist-add-item-infohash" name="infohash" value="" />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group" id="transport-file-url-input" style="display: none;">
+                                    <label class="control-label translate" data-string-id="url"></label>
+                                    <div class="controls">
+                                        <input type="text" id="playlist-add-item-transport-file-url" name="transport_file_url" value="" />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions" style="text-align: center;">
+                                    <input class="btn btn-info normal translate" data-string-id="add-to-playlist" data-translate-attr="value" type="button" onclick="add_playlist_item(playlist_item_added);" value="" />
+                                    <input class="btn btn-info btn-danger normal translate" data-string-id="cancel" data-translate-attr="value" type="button" onclick="close_iframe();" value="" />
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+        <script>
+        reload_locale(true);
+        
+        // set initial form values
+        if(params.title) {
+            $("#playlist-add-item-title").val(params.title);
+        }
+        if(params.content_id) {
+            $("#playlist-add-item-content-id").val(params.content_id);
+        }
+        if(params.transport_file_url) {
+            $("#playlist-add-item-transport-file-url").val(params.transport_file_url);
+            $("#transport-file-url-input").show();
+            $("#infohash-input").hide();
+        }
+        if(params.infohash) {
+            $("#playlist-add-item-infohash").val(params.infohash);
+        }
+        if(params.magnet) {
+            $("#playlist-add-item-infohash").val(params.magnet);
+        }
+        </script>
+    </body>
+</html>

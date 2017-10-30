@@ -1,0 +1,54 @@
+.ie body {
+	font-family: Arial, Tahoma;
+	min-width: 1280px;
+}
+
+.ie .login-layout .lbl {
+	margin-left: 30px;
+	margin-top: 7px;
+}
+.ie .login-layout .row-fluid input{
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.ie .login-layout .row-fluid input[type="checkbox"]{
+	background: none;
+	border: none;
+	padding: 0;
+	margin-top: 10px;
+}
+.ie .avatar .import-btn .ace-btn {
+	background: #000;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90);
+}
+.ie .welcome .screenshot img {
+	width: 150px;
+}
+.ie {}
+.ie {}
+.ie {}
+.ie {}
+.ie {}
+.ie {}
+.ie {}
+.ie {}
+
+/* --- @media only screen and (max-width: 1140px)  ---- */
+#range_3 #ie  {
+	
+}
+
+/* --- @media (min-width: 768px) and (max-width: 1024px)  ---- */
+#range_2 #ie {
+		
+}
+
+
+/* --- @media (max-width: 767px)  ---- */
+#range_1 #ie,
+#range_0 #ie {
+	
+}
+
+
+/* --- @media only screen and (max-width: 480px)  ---- */
