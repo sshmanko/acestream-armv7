@@ -1,0 +1,79 @@
+/* General styles for all menus */
+.cbp-spmenu {
+	background: #444444;
+	position: absolute;
+	width: 294px;
+	top: 65px;
+	z-index: 1002;
+	left: -295px;
+	bottom: 0px;
+	overflow: auto;
+}
+.cbp-spmenu.cbp-spmenu-open {
+	left: 0px;
+}
+
+.cbp-spmenu h3,
+.cbp-spmenu h4,
+.cbp-spmenu a {
+	color: #ffffff;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 50px;
+    text-transform: uppercase;
+}
+.cbp-spmenu h3 {
+    text-align: center;
+	width: 100%;
+	font-size: 14px;
+	border-bottom: 1px solid #888;
+}
+.cbp-spmenu h3.inner {
+	line-height: 50px;
+	margin: 0;
+}
+.cbp-spmenu h4 {
+    text-align: left;
+	width: 220px;
+	padding-left: 30px;
+	margin: 0;
+}
+
+.cbp-spmenu .item {
+	display: block;
+	padding-left: 30px;
+	width: 264px;
+	text-decoration: none !important;
+}
+.cbp-spmenu .item.level2 {
+	padding-left: 60px;
+	width: 234px;
+}
+.cbp-spmenu .item:hover {
+	background: #5493b8;
+}
+.cbp-spmenu .item:active {
+	background: #5493b8;
+}
+
+.cbp-spmenu .item.with-icon {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+
+.cbp-spmenu .item.with-icon i {
+/*	flex-grow: 1;*/
+}
+
+.cbp-spmenu .item.with-icon a {
+	display: block;
+/*	flex-grow: 50;*/
+}
+
+/* Transitions */
+.cbp-spmenu {
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}

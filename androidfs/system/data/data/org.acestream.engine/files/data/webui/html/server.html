@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title class="translate" data-string-id="page-title"></title>
+<link rel="icon" type="image/x-icon" href="/webui/images/favicon.ico">
+
+<script src="/webui/javascript/jquery-1.10.2.min.js"></script>
+<script src="/webui/javascript/jquery-ui.min.js"></script>
+<script src="/webui/javascript/strftime.min.js"></script>
+<script src="/webui/javascript/moment.min.js"></script>
+<script src="/webui/javascript/server.js"></script>
+<script src="/webui/javascript/bootstrap.js"></script>
+<script src="/webui/javascript/uniform.js"></script>
+<script src="/webui/javascript/jquery.sticky.js"></script>
+<script src="/webui/javascript/proxy_server.js"></script>
+<script src="/webui/javascript/broadcasting.js"></script>
+<script src="/webui/javascript/lang.js"></script>
+<script src="/webui/javascript/lang.ru_RU.js"></script>
+<script src="/webui/javascript/lang.en_EN.js"></script>
+<script src="/webui/javascript/bootstrap-datetimepicker.min.js"></script>
+<script src="/webui/javascript/clipboard.min.js"></script>
+<script src="/webui/javascript/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<link rel="stylesheet" href="/webui/css/jquery-ui.css" />
+<link rel="stylesheet" href="/webui/css/ui-menu.css" />
+<link rel="stylesheet" href="/webui/css/common.css" />
+
+<link rel="stylesheet" href="/webui/css/bootstrap.css">
+<link rel="stylesheet" href="/webui/css/bootstrap-responsive.css">
+<link rel="stylesheet" href="/webui/css/uniform.css">
+<link rel="stylesheet" href="/webui/css/unicorn.css">
+<link rel="stylesheet" href="/webui/css/style.css">
+<link rel="stylesheet" href="/webui/css/gritter.css">
+<link rel="stylesheet" href="/webui/css/ace-style.css">
+<link rel="stylesheet" href="/webui/css/popup.css">
+<link rel="stylesheet" href="/webui/css/popup2.css">
+<link rel="stylesheet" href="/webui/css/popup3.css">
+<link rel="stylesheet" href="/webui/css/css.css">
+<link rel="stylesheet" href="/webui/css/light.css">
+<link rel="stylesheet" href="/webui/css/media.css">
+<link rel="stylesheet" href="/webui/css/scroll.css">
+<link rel="stylesheet" href="/webui/css/ie.css">
+<link rel="stylesheet" href="/webui/css/slide-menu.css">
+<link rel="stylesheet" href="/webui/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="/webui/css/font-awesome.min.css">
+<link rel="stylesheet" href="/webui/css/jquery.mCustomScrollbar.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<script>
+// global
+var current_page_ = "#proxy-server-playlist",
+    can_hide_sliding_menu_ = true,
+    current_hls_broadcast_create_page_ = "broadcasting-add-hls-single",
+    support_ask_category_ = 1,
+    playlist_clipboard_ = null,
+    search_results_clipboard_ = null,
+    subcategory_cache = {},
+    params = {{params}},
+    languageNames = {};
+
+</script>
+
+</head>
+
+<body id="server">
+
+<div id="context-menu" style="display: none;"></div>
+<div class="popup-overlay"></div>
+
+<div id="wrap">
+	<div id="header" style="z-index: 0;">
+		<h1>
+			<a href="https://accounts.acestream.net/home"><img src="/webui/images/logo.png" alt="Ace Stream"></a>
+		</h1>
+		<marquee id="info-string" class="scroll-text" behavior="scroll" direction="left" scrollamount="2" scrolldelay="60" loop="-1" onmouseover="try{this.stop();}catch(e){}" onmouseout="try{this.start();}catch(e){}">
+		</marquee>
+	</div>
+
+	<div id="user-nav" class="navbar navbar-inverse">
+		<ul style="width: auto; margin: 0px;" class="nav btn-group">
+
+		    <li class="btn btn-inverse">
+				<a href="#proxy-server-main" class="show-page">
+					<span class="text translate" data-string-id="proxy-server">
+					</span>
+				</a>
+			</li>
+
+			<li class="btn btn-inverse">
+				<a href="#broadcasting-main" class="show-page">
+					<span class="text translate" data-string-id="broadcasting">
+
+					</span>
+				</a>
+			</li>
+
+			<li class="btn btn-inverse">
+				<a href="https://accounts.acestream.net/sponsors">
+					<span class="text translate" data-string-id="sponsors">
+
+					</span>
+				</a>
+			</li>
+
+			<li class="btn btn-inverse highlight">
+				<a href="https://accounts.acestream.net/user/services">
+					<i class="icon icon-premium"></i>
+					<span class="text translate" data-string-id="premium">
+
+					</span>
+				</a>
+			</li>
+
+			<li class="btn btn-inverse">
+                <a class="show-page" href="#user-messages">
+                    <span class="text translate" data-string-id="user-messages"></span>
+                    <span class="label label-danger user-messages-unread-count" style="display: none;">0</label>
+                </a>
+            </li>
+
+			<li class="btn btn-inverse dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
+					<span class="text translate" data-string-id="more"></span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<span class="menu-bg"></span>
+					<li>
+						<a href="http://forum.torrentstream.org/" target="_blank">
+							<span class="translate" data-string-id="forum"></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://wiki.acestream.org/" target="_blank">
+							<span class="translate" data-string-id="wiki"></span>
+						</a>
+					</li>
+					<li>
+						 <a href="http://www.acestream.org/license" target="_blank">
+							<span class="translate" data-string-id="terms"></span>
+						</a>
+					</li>
+					<li>
+						<a href="https://accounts.acestream.net/contacts">
+							<span class="translate" data-string-id="contacts"></span>
+						</a>
+					</li>
+					<li>
+						<a href="https://accounts.acestream.net/help/ask">
+							<span class="translate" data-string-id="help"></span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<div id="sub-header">
+		<nav class="cbp-spmenu" data-id="home">
+			<h3 class="translate" data-string-id="account"></h3>
+			<a class="item translate" data-string-id="settings" href="https://accounts.acestream.net/profile/"></a>
+			<a class="item translate" data-string-id="finances" href="https://accounts.acestream.net/user/purse"></a>
+			<a class="item translate show-page" data-string-id="proxy-server" href="#proxy-server-main"></a>
+			<a class="item translate show-page" data-string-id="broadcasting" href="#broadcasting-main"></a>
+		</nav>
+		<nav class="cbp-spmenu" data-id="purse">
+			<h3 class="translate" data-string-id="finances"></h3>
+			<a class="item translate" data-string-id="wallet" href="https://accounts.acestream.net/user/purse"></a>
+			<a class="item translate" data-string-id="invoice" href="https://accounts.acestream.net/user/finances"></a>
+		</nav>
+		<nav class="cbp-spmenu" data-id="proxy-server">
+			<h3 class="translate" data-string-id="media-server"></h3>
+
+			<h4 class="translate my-playlists-header" data-string-id="my-playlists" style="display: none;"></h4>
+			<a href="#proxy-server-playlist" class="item show-page translate my-playlists-link" data-string-id="my-playlists"></a>
+			<div class="quick-nav-my-playlists">
+			</div>
+
+			<a data-string-id="remote-control" href="#" class="item translate hidden visible-when-remote-control-enabled action-open-remote-control"></a>
+			<!-- <a data-string-id="sync" href="#media-server-sync" class="item show-page translate"></a> -->
+			<a data-string-id="recycle" href="#proxy-server-recycle-bin" class="item show-page translate"></a>
+
+			<h3 class="inner translate" data-string-id="media-server-settings"></h3>
+			<a data-string-id="info-panel" href="#proxy-server-settings-info" class="item show-page translate"></a>
+			<a data-string-id="parameters" href="#proxy-server-settings" class="item show-page translate"></a>
+			<a data-string-id="imported-playlist" href="#proxy-server-imported-playlists" class="item show-page translate"></a>
+
+		</nav>
+		<nav class="cbp-spmenu" data-id="broadcasting">
+			<h3 class="translate" data-string-id="broadcasting"></h3>
+			<a data-string-id="broadcasting-create-p2p" href="#broadcasting-create-p2p" class="item show-page translate"></a>
+            <a data-string-id="broadcasting-add-hls" href="#broadcasting-add-hls" class="item show-page translate"></a>
+            <a data-string-id="broadcasting-my-broadcasts" href="#broadcasting-my-broadcasts" class="item show-page translate"></a>
+		</nav>
+
+		<div class="sidebar">
+			<div class="main-icon logo">
+				<a href="https://accounts.acestream.net/">
+					<img src="/webui/images/logo-small.png" alt="ACE Stream">
+				</a>
+			</div>
+			<div class="main-icon quick-nav-button" data-button-id="1" data-id="home">
+				<a href="#">
+					<i class="icon icon-home"></i>
+				</a>
+			</div>
+			<div class="main-icon quick-nav-button" data-button-id="2" data-id="purse">
+				<a href="#">
+					<i class="icon icon-briefcase"></i>
+				</a>
+			</div>
+			<div class="main-icon quick-nav-button" data-button-id="3" data-id="broadcasting">
+				<a href="#">
+					<i class="icon icon-broadcast"></i>
+				</a>
+			</div>
+			<div class="main-icon last quick-nav-button" data-button-id="4" data-id="proxy-server">
+				<a href="#">
+					<i class="icon icon-proxy"></i>
+				</a>
+			</div>
+		</div>
+		<div class="content">
+			<div id="breadcrumb">
+				<div class="color-line">
+					<span class="blue-color"></span>
+					<span class="purple-color"></span>
+					<span class="red-color"></span>
+					<span class="orange-color"></span>
+					<span class="yellow-color"></span>
+					<span class="green-color"></span>
+				</div>
+				<div id="breadcrumb-path">
+				</div>
+			</div>
+			<div class="filter">
+				<span class="translate" data-string-id="filter"></span>
+				<input value="keyword" type="text">
+				<div class="reset"></div>
+			</div>
+		</div>
+		<div id="notification"></div>
+		<div class="info-btns">
+			<a href="#" class="menu-icon hidden visible-when-remote-control-enabled action-open-remote-control">
+				<i class="material-icons">settings_remote</i>
+			</a>
+			<a href="#" id="help-link" class="show-page menu-icon">
+				<i style="" class="fa fa-info-circle"></i>
+			</a>
+			<a href="#" id="popup-ask" class="menu-icon">
+				<i class="fa fa-question-circle"></i>
+			</a>
+
+			<div id="lang-selector" class="dropdown">
+				<a class="dropdown-toggle btn" data-toggle="dropdown" href="javascript:void(0)">
+					<span id="current-locale-name-short"></span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu bootstrap-dropdown-menu">
+					<li>
+						<a href="#" onclick="set_locale('en_EN'); return false;">
+							English
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="set_locale('ru_RU'); return false;">
+							Русский
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div id="static-sidebar-container" style="display: none;">
+            <div class="static-sidebar" data-id="proxy-server-main">
+                <div class="side-title translate" data-string-id="media-server"></div>
+                <ul>
+					<li class="my-playlists-link"><a href="#proxy-server-playlist" class="show-page translate" data-string-id="my-playlists"></a></li>
+                    <li class="my-playlists-header submenu open" style="display: none;">
+                    	<a href="#" onclick="return false;" class="translate" data-string-id="my-playlists"></a>
+                    	<ul class="sidebar-my-playlists">
+                    	</ul>
+                    </li>
+                    <li><a data-string-id="remote-control" href="#" class="translate hidden visible-when-remote-control-enabled action-open-remote-control"></a></li>
+                    <li><a data-string-id="recycle" href="#proxy-server-recycle-bin" class="show-page translate"></a></li>
+                </ul>
+
+                <div class="side-title translate" data-string-id="media-server-settings"></div>
+                <ul>
+                    <li><a data-string-id="info-panel" href="#proxy-server-settings-info" class="show-page translate"></a></li>
+                    <li><a data-string-id="server-settings" href="#proxy-server-settings" class="show-page translate"></a></li>
+                    <li><a data-string-id="imported-playlist" href="#proxy-server-imported-playlists" class="show-page translate"></a> </li>
+                    <li><a data-string-id="program-guide-epg" href="#proxy-server-epg-sources" class="show-page translate hidden visible-when-user-epg-enabled"></a></li>
+                </ul>
+            </div>
+            <div class="static-sidebar" data-id="broadcasting-main">
+                <div class="side-title translate" data-string-id="broadcasting"></div>
+                <ul>
+                    <li><a data-string-id="broadcasting-create-p2p" href="#broadcasting-create-p2p" class="show-page translate"></a></li>
+                    <li><a data-string-id="broadcasting-add-hls" href="#broadcasting-add-hls" class="show-page translate"></a></li>
+                    <li><a data-string-id="broadcasting-my-broadcasts" href="#broadcasting-my-broadcasts" class="show-page translate"></a></li>
+                </ul>
+            </div>
+            <div class="static-sidebar" data-id="broadcasting-add-hls">
+                <div class="side-title translate" data-string-id="broadcasting"></div>
+                <ul>
+                    <li data-id="broadcasting-add-hls-single"><a data-string-id="broadcasting-add-hls-single" href="#broadcasting-add-hls-single" class="show-page translate"></a></li>
+                    <li data-id="broadcasting-add-hls-playlist"><a data-string-id="broadcasting-add-hls-playlist" href="#broadcasting-add-hls-playlist" class="show-page translate"></a></li>
+                </ul>
+            </div>
+        </div>
+
+	</div>
+
+	<div id="content" class="no-sidebar">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="widget-box">
+						<div id="tabs" class="widget-content nopadding">
+							<ul class="tab-menu" style="display: none;">
+								<li><a href="#tab-playlist"></a></li>
+								<li><a href="#tab-server-settings"></a></li>
+								<li><a href="#tab-add-item"></a> </li>
+								<li><a href="#tab-external-playlists"></a></li>
+								<li><a href="#tab-playlist-trash"></a></li>
+								<li><a href="#tab-create-p2p-broadcast"></a></li>
+								<li><a href="#tab-hls-add-single"></a></li>
+								<li><a href="#tab-hls-add-playlist"></a></li>
+								<li><a href="#tab-my-broadcasts"></a></li>
+								<li><a href="#tab-proxy-server-main"></a></li>
+								<li><a href="#tab-broadcasting-main"></a></li>
+								<li><a href="#tab-user-messages"></a></li>
+								<li><a href="#tab-epg-sources"></a></li>
+								<li><a href="#tab-server-settings-info"></a></li>
+								<li><a href="#tab-media-server-sync"></a></li>
+							</ul>
+
+							<!-- Playlist -->
+							<div id="tab-playlist" class="form-horizontal">
+								<div class="control-group hidden-remote-search visible-local-search">
+									<label class="control-label translate" data-string-id="filter-by-category"></label>
+									<div class="controls">
+										<select id="filter-category">
+											<!-- <option value="_all_" class="translate" data-string-id="show-all"></option> -->
+											<option value="tv" class="translate" data-string-id="tv"></option>
+											<option value="movies" class="translate" data-string-id="movies"></option>
+											<option value="music_video" class="translate" data-string-id="music_video"></option>
+											<option value="music" class="translate" data-string-id="music"></option>
+											<option value="other" class="translate" data-string-id="other"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="filter-by-subcategory"></label>
+									<div class="controls">
+										<select id="filter-subcategory"></select>
+										<select id="search-remote-category" style="display: none;">
+											<option value="_all_" class="translate" data-string-id="show-all">Show all</option>
+											<option value="informational" class="translate" data-string-id="category-informational">informational</option>
+								            <option value="entertaining" class="translate" data-string-id="category-entertaining">entertaining</option>
+								            <option value="educational" class="translate" data-string-id="category-educational">educational</option>
+								            <option value="movies" class="translate" data-string-id="category-movies">movies</option>
+								            <option value="documentaries" class="translate" data-string-id="category-documentaries">documentaries</option>
+								            <option value="sport" class="translate" data-string-id="category-sport">sport</option>
+								            <option value="fashion" class="translate" data-string-id="category-fashion">fashion</option>
+								            <option value="music" class="translate" data-string-id="category-music">music</option>
+								            <option value="regional" class="translate" data-string-id="category-regional">regional</option>
+								            <option value="ethnic" class="translate" data-string-id="category-ethnic">ethnic</option>
+								            <option value="religion" class="translate" data-string-id="category-religion">religion</option>
+								            <option value="teleshop" class="translate" data-string-id="category-teleshop">teleshop</option>
+								            <option value="erotic_18_plus" class="translate" data-string-id="category-erotic_18_plus">erotic_18_plus</option>
+								            <option value="other_18_plus" class="translate" data-string-id="category-other_18_plus">other_18_plus</option>
+								            <option value="cyber_games" class="translate" data-string-id="category-cyber_games">cyber_games</option>
+								            <option value="amateur" class="translate" data-string-id="category-amateur">amateur</option>
+								            <option value="webcam" class="translate" data-string-id="category-webcam">webcam</option>
+								            <option value="kids" class="translate" data-string-id="category-kids">kids</option>
+								            <option value="series" class="translate" data-string-id="category-series">series</option>
+								            <option value="promotion" class="translate" data-string-id="category-promotion">promotion</option>
+								            <option value="_other_" class="translate" data-string-id="category-other">other</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="search"></label>
+									<div class="controls">
+										<input type="text" id="filter-name" />
+										<input type="text" id="search-remote" style="display: none;" />
+										<div class="search-type-selector hidden visible-when-search-enabled">
+											<input type="radio" name="seach-type" value="local" class="radio-search-type" id="radio-search-type-local" checked />
+											<label for="radio-search-type-local" class="translate" data-string-id="search-local">
+												Local
+											</label>
+											<input type="radio" name="seach-type" value="remote" class="radio-search-type" id="radio-search-type-remote" />
+											<label for="radio-search-type-remote" class="translate" data-string-id="search-remote">
+												Remote
+											</label>
+										</div>
+									</div>
+								</div>
+
+								<div id="playlist-container">
+									<div style="height: 53px;">
+										<input style="float: left; margin-left: 0px; margin-top: 10px;" class="btn btn-info btn-danger normal translate" data-string-id="del-selected" data-translate-attr="value" type="button" id="btn-delete-selected" value="Delete selected" />
+										<input style="float: left; margin-left: 10px; margin-top: 10px;" class="btn btn-info btn-danger normal translate" data-string-id="clear-playlist" data-translate-attr="value" type="button" id="btn-clear-playlist" value="Delete all" />
+										<input style="float: left; margin-left: 10px; margin-top: 10px;" href="#proxy-server-add-item" class="btn btn-info normal translate show-page" data-string-id="add-content" data-translate-attr="value" type="button" value="Add content" />
+										<input style="float: left; margin-left: 10px; margin-top: 10px;" href="#media-server-add-playlist" class="btn btn-info normal translate action-add-playlist show-page" data-string-id="add-playlist" data-translate-attr="value" type="button" value="Add playlist" />
+										<input style="float: right; margin-right: 3px; margin-top: 10px;" class="btn btn-info normal translate action-open-playlist-url-popup" data-string-id="show-playlist-url" data-translate-attr="value" type="button" id="btn-show-playlist-url" value="Playlist URL" />
+										<a href="#" style="float: right; margin-right: 10px; margin-top: 15px;" class="menu-icon action-sync-playlist translate" data-string-id="sync-playlist" data-translate-attr="title" title="Sync playlist">
+											<i class="material-icons">sync</i>
+										</a>
+									</div>
+
+									<div id="playlist" class="data-table">
+									</div>
+								</div>
+
+								<div id="search-results-container">
+									<div id="search-results" class="data-table">
+									</div>
+								</div>
+							</div>
+
+							<!-- Server settings tab -->
+							<div id="tab-server-settings" class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="auto-sync"></label>
+									<div class="controls">
+										<input type="checkbox" id="auto_sync" value="1" />
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="allow-remote-access"></label>
+									<div class="controls">
+										<input type="checkbox" id="allow_remote_access" value="1" />
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="allow-intranet-access"></label>
+									<div class="controls">
+										<input type="checkbox" id="allow_intranet_access" value="1" />
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="live-stream-type"></label>
+									<div class="controls">
+										<input type="radio" class="output_stream_format_live" name="output_stream_format_live" id="output_stream_format_live_auto" value="auto" /><label for="output_stream_format_live_auto" class="translate" data-string-id="auto"></label>
+										<br/>
+										<input type="radio" class="output_stream_format_live" name="output_stream_format_live" id="output_stream_format_live_original" value="original" /><label for="output_stream_format_live_original" class="translate" data-string-id="original"></label>
+										<br/>
+										<input type="radio" class="output_stream_format_live" name="output_stream_format_live" id="output_stream_format_live_hls" value="hls" /><label for="output_stream_format_live_hls" class="translate" data-string-id="hls"></label>
+										<br/>
+										<input type="radio" class="output_stream_format_live" name="output_stream_format_live" id="output_stream_format_live_http" value="http" /><label for="output_stream_format_live_http" class="translate" data-string-id="http"></label>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="vod-stream-type"></label>
+									<div class="controls">
+									    <input type="radio" class="output_stream_format_vod" name="output_stream_format_vod" id="output_stream_format_vod_auto" value="auto" /><label for="output_stream_format_vod_auto" class="translate" data-string-id="auto"></label>
+										<br/>
+										<input type="radio" class="output_stream_format_vod" name="output_stream_format_vod" id="output_stream_format_vod_original" value="original" /><label for="output_stream_format_vod_original" class="translate" data-string-id="original"></label>
+										<br/>
+										<input type="radio" class="output_stream_format_vod" name="output_stream_format_vod" id="output_stream_format_vod_hls" value="hls" /><label for="output_stream_format_vod_hls" class="translate" data-string-id="hls"></label>
+										<br/>
+										<input type="radio" class="output_stream_format_vod" name="output_stream_format_vod" id="output_stream_format_vod_http" value="http" /><label for="output_stream_format_vod_http" class="translate" data-string-id="http"></label>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="audio-transcoding"></label>
+									<div class="controls">
+										<input type="checkbox" id="transcode_audio" value="1" /><label for="transcode_audio" class="translate" data-string-id="transcode-to-aac"></label>
+										<br/>
+										<input type="checkbox" id="skip_transcode_mp3" value="1" /><label for="skip_transcode_mp3" class="translate" data-string-id="dont-transcode-mp3"></label>
+										<br/>
+										<input type="checkbox" id="transcode_ac3" value="1" /><label for="transcode_ac3" class="translate" data-string-id="transcode-ac3-only"></label>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="audio-lang"></label>
+									<div class="controls">
+										<select id="preferred_audio_language">
+											<option value="eng">English</option>
+											<option value="rus">Russian</option>
+											<option value="ukr">Ukrainian</option>
+											<option value="ara">Arabic</option>
+											<option value="bul">Bulgarian</option>
+											<option value="chi">Chinese</option>
+											<option value="cze">Czech</option>
+											<option value="dan">Danish</option>
+											<option value="dut">Dutch</option>
+											<option value="egy">Egyptian</option>
+											<option value="fin">Finnish</option>
+											<option value="fre">French</option>
+											<option value="ger">German</option>
+											<option value="gre">Greek</option>
+											<option value="heb">Hebrew</option>
+											<option value="hun">Hungarian</option>
+											<option value="ind">Indonesian</option>
+											<option value="ita">Italian</option>
+											<option value="jpn">Japanese</option>
+											<option value="kor">Korean</option>
+											<option value="nor">Norwegian</option>
+											<option value="pol">Polish</option>
+											<option value="por">Portuguese</option>
+											<option value="rum">Romanian</option>
+											<option value="spa">Spanish</option>
+											<option value="tha">Thai</option>
+											<option value="tur">Turkish</option>
+											<option value="vie">Vietnamese</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="preferred-video-quality"></label>
+									<div class="controls">
+										<select id="preferred_video_quality">
+											<option value="2160">2160p</option>
+											<option value="1400">1440p</option>
+											<option value="1080">1080p</option>
+											<option value="720">720p</option>
+											<option value="480">480p</option>
+											<option value="360">360p</option>
+											<option value="240">240p</option>
+											<option value="144">144p</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="preferred-video-bitrate"></label>
+									<div class="controls">
+										<select id="preferred_video_bitrate">
+											<option value="4">&gt; 6 Mbps</option>
+											<option value="3">4-6 Mbps</option>
+											<option value="2">2-4 Mbps</option>
+											<option value="1">1-2 Mbps</option>
+											<option value="0">&lt; 1 Mbps</option>
+										</select>
+									</div>
+								</div>
+
+							</div>
+							<!-- /Server settings tab -->
+
+							<!-- Add an item to the playlist -->
+							<div id="tab-add-item" class="form-horizontal">
+								<form action="/server/api?method=playlist_add_item" id="playlist-add-item-form" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="redirect" class="redirect-url" value="" />
+									<input type="hidden" name="token" class="form-token" value="" />
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="category"></span>:</label>
+										<div class="controls">
+											<select name="category" id="playlist-add-item-category">
+												<option value="tv" class="translate" data-string-id="tv"></option>
+												<option value="movies" class="translate" data-string-id="movies"></option>
+												<option value="music_video" class="translate" data-string-id="music_video"></option>
+												<option value="music" class="translate" data-string-id="music"></option>
+												<option value="other" class="translate" data-string-id="other"></option>
+											</select>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="subcategory"></span>:</label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-subcategory" name="subcategory" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="title"></span>:</label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-title" name="title" value="" />
+										</div>
+									</div>
+
+									<div class="control-group" style="border-bottom: none;">
+										<div class="controls">
+											<span class="translate" data-string-id="select-one-of-these-variants"></span>:
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="content-id"></span>:</label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-content-id" name="id" value="" />
+										</div>
+									</div>
+
+									<div class="control-group" id="infohash-input" style="display: none;">
+										<label class="control-label translate" data-string-id="magnet-infohash"></label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-infohash" name="infohash" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="transport-file-url"></span>:</label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-transport-file-url" name="url" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="hls-manifest-url"></span>:</label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-hls-manifest-url" name="hls_manifest_url" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="video-url"></span>:</label>
+										<div class="controls">
+											<input type="text" id="playlist-add-item-video-url" name="video_url" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label translate" data-string-id="select-file"></label>
+										<div class="controls">
+											<input type="file" name="file" id="playlist-add-item-file" />
+										</div>
+									</div>
+
+									<div class="form-actions">
+										<input class="btn btn-info normal translate" data-string-id="add-to-playlist" data-translate-attr="value" type="button" onclick="playlist_add_item_form_submit();" value="" />
+									</div>
+								</form>
+							</div>
+
+							<!-- External playlists tab -->
+							<div id="tab-external-playlists" class="form-horizontal">
+								<div id="external-playlists-container">
+									<div id="external-playlists" class="data-table">
+									</div>
+									<hr/>
+								</div>
+								<form action="/server/api?method=playlist_import" id="playlist-upload-form" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="redirect" class="redirect-page" data-page-id="proxy-server-playlist" value="" />
+									<input type="hidden" name="token" class="form-token" value="" />
+
+                                    <div class="widget-title">
+                                        <h5 class="translate" data-string-id="add-new-playlist"></h5>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label"><span class="translate" data-string-id="name"></span>:</label>
+                                        <div class="controls">
+                                            <input type="text" id="add-external-playlist-name" name="name" value="" />
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="category"></span>:</label>
+										<div class="controls">
+											<select id="add-external-playlist-category" name="category">
+												<option value="tv" class="translate" data-string-id="tv"></option>
+												<option value="movies" class="translate" data-string-id="movies"></option>
+												<option value="music_video" class="translate" data-string-id="music_video"></option>
+												<option value="music" class="translate" data-string-id="music"></option>
+												<option value="other" class="translate" data-string-id="other"></option>
+											</select>
+										</div>
+									</div>
+
+                                    <div class="control-group">
+                                        <label class="control-label"><span class="translate" data-string-id="url"></span>:</label>
+                                        <div class="controls">
+                                            <input type="text" id="add-external-playlist-url" name="url" value="" />
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group field-select-file">
+                                        <label class="control-label"><span class="translate" data-string-id="select-file"></span>:</label>
+                                        <div class="controls">
+                                            <input type="file" id="upload-playlist-file" name="file" />
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label translate" data-string-id="update-interval"></label>
+                                        <div class="controls">
+                                            <select id="add-external-playlist-update-interval">
+                                                <option value="6" class="translate" data-string-id="6h"></option>
+                                                <option value="12" class="translate" data-string-id="12h"></option>
+                                                <option value="24" class="translate" data-string-id="daily" selected></option>
+                                                <option value="0" class="translate" data-string-id="do-not-update"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <input class="btn btn-info normal translate" data-string-id="add-btn" data-translate-attr="value" type="button" id="btn-add-external-playlist" value="" />
+                                    </div>
+
+                                </form>
+							</div>
+							<!-- /External playlists tab -->
+
+							<!-- Playlist trash -->
+							<div id="tab-playlist-trash" class="form-horizontal">
+								<div style="text-align: right; margin-bottom: 10px;">
+									<a class="btn btn-info btn-danger normal translate" data-string-id="empty-recycle" href="#" onclick="clear_playlist_trash(); return false;"></a>
+								</div>
+								<div id="playlist-trash" class="data-table">
+								</div>
+							</div>
+
+							<!-- Create P2P broadcast -->
+							<div id="tab-create-p2p-broadcast" class="form-horizontal">
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="p2p-source"></label>
+									<div class="controls">
+										<input type="text" id="p2p_source" value="" />
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label"><span class="translate" data-string-id="category"></span>:</label>
+									<div class="controls">
+										<select id="p2p_category">
+											<option value="" class="translate" data-string-id="select-cat"></option>
+											<option value="informational" class="translate" data-string-id="inform"></option>
+											<option value="entertaining" class="translate" data-string-id="entertain"></option>
+											<option value="educational" class="translate" data-string-id="educate"></option>
+											<option value="movies" class="translate" data-string-id="movies"></option>
+											<option value="series" class="translate" data-string-id="tv-series"></option>
+											<option value="kids" class="translate" data-string-id="kids"></option>
+											<option value="documentaries" class="translate" data-string-id="docs"></option>
+											<option value="sport" class="translate" data-string-id="sport"></option>
+											<option value="fashion" class="translate" data-string-id="fashion"></option>
+											<option value="music" class="translate" data-string-id="music"></option>
+											<option value="regional" class="translate" data-string-id="regional"></option>
+											<option value="ethnic" class="translate" data-string-id="ethnic"></option>
+											<option value="religion" class="translate" data-string-id="religion"></option>
+											<option value="teleshop" class="translate" data-string-id="teleshop"></option>
+											<option value="erotic_18_plus" class="translate" data-string-id="ero-18"></option>
+											<option value="other_18_plus" class="translate" data-string-id="other-18"></option>
+											<option value="cyber_games" class="translate" data-string-id="cyber-games"></option>
+											<option value="amateur" class="translate" data-string-id="amateur"></option>
+											<option value="webcam" class="translate" data-string-id="webcam"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label"><span class="translate" data-string-id="name"></span>:</label>
+									<div class="controls">
+										<input type="text" id="p2p_name" value="" />
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label"><span class="translate" data-string-id="description"></span>:</label>
+									<div class="controls">
+										<textarea id="p2p-stream-description"></textarea>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<div class="controls">
+										<div style="cursor: pointer;" class="action-spoiler-toggle" data-target-selector="#p2p-advanced-settings">
+							        		<span class="translate" data-string-id="advanced-settings">Advanced settings</span>
+							        		<span class="spoiler-toggle">+</span>
+							        	</div>
+							        </div>
+					        	</div>
+
+					        	<div id="p2p-advanced-settings" style="display: none;">
+									<div class="control-group">
+										<label class="control-label translate" data-string-id="bitrate"></label>
+										<div class="controls">
+										    <select id="p2p_bitrate_type">
+												<option value="auto" class="translate" data-string-id="bitrate-auto"></option>
+												<option value="manual" class="translate" data-string-id="bitrate-manual"></option>
+											</select>
+											<input type="text" id="p2p_bitrate" style="display: none; width: 220px;" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="quality"></span>:</label>
+										<div class="controls">
+											<select id="p2p_quality">
+												<option value="auto" class="translate" data-string-id="bitrate-auto"></option>
+												<option value="SD" class="translate" data-string-id="sd"></option>
+												<option value="HD" class="translate" data-string-id="hd"></option>
+											</select>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label translate" data-string-id="publish-dir"></label>
+										<div class="controls">
+											<input type="text" id="p2p_publish_dir" value="{{publish_dir}}" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label translate" data-string-id="cache-dir"></label>
+										<div class="controls">
+											<input type="text" id="p2p_cache_dir" value="{{cache_dir}}" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="max-peers"></span>:</label>
+										<div class="controls">
+											<input type="text" id="p2p_max_peers" value="25" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="trackers"></span>:</label>
+										<div class="controls">
+											<textarea id="p2p_trackers"></textarea>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="port"></span>:</label>
+										<div class="controls">
+											<input type="text" id="p2p_port" value="7764" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="upnp_enabled"></span>:</label>
+										<div class="controls">
+											<input type="checkbox" id="p2p_upnp_enabled" value="1" checked="checked" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="allow-public-trackers"></span>:</label>
+										<div class="controls">
+											<input type="checkbox" id="p2p_allow_public_trackers" value="1" checked="checked" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="host"></span>:</label>
+										<div class="controls">
+										    <select id="p2p_host">
+										    </select>
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label"><span class="translate" data-string-id="provider-key"></span>:</label>
+										<div class="controls">
+											<input type="text" id="p2p_provider_key" value="" />
+										</div>
+									</div>
+
+									<div class="control-group">
+										<label class="control-label translate" data-string-id="broadcast-time"></label>
+										<div class="controls">
+										    <select id="p2p_when_type">
+												<option value="permanent" class="translate" data-string-id="permanent"></option>
+												<option value="specific_time" class="translate" data-string-id="specific-time"></option>
+											</select>
+
+											<div id="p2p_date_container" style="display: none;" class="datetime">
+											  <div id="p2p_date_from" class="input-append date">
+												<input data-format="yyyy-MM-dd hh:mm" type="text"></input>
+												<span class="add-on">
+												  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+												  </i>
+												</span>
+											  </div>
+
+											  <span>-</span>
+
+											  <div id="p2p_date_to" class="input-append date">
+												<input data-format="yyyy-MM-dd hh:mm" type="text"></input>
+												<span class="add-on">
+												  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+												  </i>
+												</span>
+											  </div>
+											</div>
+											<script type="text/javascript">
+											  $(function() {
+												$('#p2p_date_to, #p2p_date_from').datetimepicker({
+												  language: 'ru',
+												  weekStart: 1
+												});
+											  });
+											</script>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-actions">
+									<input class="btn btn-info normal translate" data-string-id="create-stream-btn" data-translate-attr="value" type="button" id="button-create-stream" value="" />
+								</div>
+							</div>
+
+                            <!-- HLS broadcast add single -->
+                            <div id="tab-hls-add-single" class="form-horizontal">
+                                <div class="control-group">
+                                    <label class="control-label translate" data-string-id="hls-source"></label>
+                                    <div class="controls">
+                                        <input type="text" id="hls_manifest_url" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="title"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="hls_title" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="publish-dir"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="hls_publish_dir" value="{{publish_dir}}" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="category"></span>:</label>
+                                    <div class="controls">
+                                        <select id="hls_category">
+                                            <option value="" class="translate" data-string-id="select-cat"></option>
+                                            <option value="informational" class="translate" data-string-id="inform"></option>
+                                            <option value="entertaining" class="translate" data-string-id="entertain"></option>
+                                            <option value="educational" class="translate" data-string-id="educate"></option>
+                                            <option value="movies" class="translate" data-string-id="movies"></option>
+                                            <option value="series" class="translate" data-string-id="tv-series"></option>
+                                            <option value="kids" class="translate" data-string-id="kids"></option>
+                                            <option value="documentaries" class="translate" data-string-id="docs"></option>
+                                            <option value="sport" class="translate" data-string-id="sport"></option>
+                                            <option value="fashion" class="translate" data-string-id="fashion"></option>
+                                            <option value="music" class="translate" data-string-id="music"></option>
+                                            <option value="regional" class="translate" data-string-id="regional"></option>
+                                            <option value="ethnic" class="translate" data-string-id="ethnic"></option>
+                                            <option value="religion" class="translate" data-string-id="religion"></option>
+                                            <option value="teleshop" class="translate" data-string-id="teleshop"></option>
+                                            <option value="erotic_18_plus" class="translate" data-string-id="ero-18"></option>
+                                            <option value="other_18_plus" class="translate" data-string-id="other-18"></option>
+                                            <option value="cyber_games" class="translate" data-string-id="cyber-games"></option>
+                                            <option value="amateur" class="translate" data-string-id="amateur"></option>
+                                            <option value="webcam" class="translate" data-string-id="webcam"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="trackers"></span>:</label>
+                                    <div class="controls">
+                                        <textarea id="hls_trackers"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <input class="btn btn-info normal translate" data-string-id="create-transport-file" data-translate-attr="value" type="button" id="button-create-hls-transport-file" value="" />
+                                </div>
+                            </div>
+
+                            <!-- External HLS playlists -->
+                            <div id="tab-hls-add-playlist" class="form-horizontal">
+                                <div id="external-hls-playlists" class="data-table"></div>
+                                <hr/>
+                                <div class="widget-title">
+                                    <h5 class="translate" data-string-id="add-new-playlist"></h5>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="playlist-url"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="add-external-hls-playlist-url" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="playlist-name"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="add-external-hls-playlist-name" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="save-transport-files-on-disk"></label>
+									<div class="controls">
+										<input type="checkbox" id="add-external-hls-playlist-save-transport-files-on-disk" value="1" />
+									</div>
+								</div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="publish-dir"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="add-external-hls-playlist-publish-dir" value="{{publish_dir}}" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="update-interval"></span>:</label>
+                                    <div class="controls">
+                                        <select id="add-external-hls-playlist-update-interval">
+                                            <option value="1" class="translate" data-string-id="1h"></option>
+                                            <option value="2" class="translate" data-string-id="2h"></option>
+                                            <option value="3" class="translate" data-string-id="3h"></option>
+                                            <option value="4" class="translate" data-string-id="4h"></option>
+                                            <option value="5" class="translate" data-string-id="5h"></option>
+                                            <option value="6" class="translate" data-string-id="6h"></option>
+                                            <option value="12" class="translate" data-string-id="12h"></option>
+                                            <option value="24" class="translate" data-string-id="daily" selected></option>
+                                            <option value="0" class="translate" data-string-id="do-not-update"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="trackers"></span>:</label>
+                                    <div class="controls">
+                                        <textarea id="add-external-hls-playlist-trackers"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <input class="btn btn-info normal translate" data-string-id="import-playlist" data-translate-attr="value" type="button" id="button-add-external-hls-playlist" value="" />
+                                </div>
+                            </div>
+
+							<!-- My broadcasts -->
+							<div id="tab-my-broadcasts" class="form-horizontal">
+								<!-- filters -->
+
+								<div class="control-group">
+									<label class="control-label"><span class="translate" data-string-id="filter-by-source"></span>:</label>
+									<div class="controls">
+										<select id="broadcasting-filter-external-playlist-id">
+											<option value="-2" class="translate" data-string-id="show-all"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label"><span class="translate" data-string-id="filter-by-status"></span>:</label>
+									<div class="controls">
+										<select id="filter-status">
+											<option value="-2" class="translate" data-string-id="show-all"></option>
+											<option value="1" class="translate" data-string-id="alive"></option>
+											<option value="-1" class="translate" data-string-id="dead"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-actions">
+									<input class="btn btn-info normal translate" data-string-id="export-selected" data-translate-attr="value" type="button" id="btn-my-broadcasts-export-selected" value="" />
+								</div>
+
+								<div id="broadcast_list" class="data-table">
+								</div>
+							</div>
+
+							<!-- Proxy server main -->
+							<div id="tab-proxy-server-main" class="form-horizontal">
+							    <div class="promo-block" data-id="proxyServer"></div>
+							    <div class="remote-info-block" data-id="proxyServer"></div>
+							</div>
+
+							<!-- Broadcasting main -->
+							<div id="tab-broadcasting-main" class="form-horizontal">
+							    <div class="remote-info-block" data-id="broadcasting"></div>
+							</div>
+
+							<!-- User messages -->
+							<div id="tab-user-messages" class="form-horizontal">
+							    <div id="user-messages-container"></div>
+							</div>
+
+							<!-- EPG sources tab -->
+							<div id="tab-epg-sources" class="form-horizontal hidden visible-when-epg-enabled">
+								<div class="control-group hidden visible-when-epg-enabled">
+									<label class="control-label translate" data-string-id="enable-system-epg"></label>
+									<div class="controls">
+										<input type="checkbox" id="enable_system_epg" value="1" />
+									</div>
+								</div>
+
+								<div class="control-group hidden visible-when-epg-enabled">
+									<label class="control-label translate" data-string-id="preferred-epg-languages"></label>
+									<div class="controls">
+										<div id="preferred-epg-languages-value" style="display: inline-block;"></div>
+										<input class="btn btn-info translate" type="button" id="btn_change_preferred_epg_languages" value="" data-translate-attr="value" data-string-id="change" />
+									</div>
+								</div>
+
+								<br/>
+								<div class="widget-title">
+                                    <h5 class="translate" data-string-id="epg-sources"></h5>
+                                </div>
+
+								<div id="epg-sources" class="data-table">
+								</div>
+
+								<hr/>
+                                <div class="widget-title">
+                                    <h5 class="translate" data-string-id="add-epg-source"></h5>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label translate" data-string-id="epg-format"></label>
+                                    <div class="controls">
+                                        <select id="add-epg-source-format">
+                                            <option value="1">XMLTV</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label"><span class="translate" data-string-id="url"></span>:</label>
+                                    <div class="controls">
+                                        <input type="text" id="add-epg-source-url" name="url" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label translate" data-string-id="update-interval"></label>
+                                    <div class="controls">
+                                        <select id="add-epg-source-update-interval">
+                                            <option value="6" class="translate" data-string-id="6h"></option>
+                                            <option value="12" class="translate" data-string-id="12h"></option>
+                                            <option value="24" class="translate" data-string-id="daily" selected></option>
+                                            <option value="0" class="translate" data-string-id="do-not-update"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <input class="btn btn-info normal translate" data-string-id="add-btn" data-translate-attr="value" type="button" id="btn-add-epg-source" value="" />
+                                </div>
+
+							</div>
+							<!-- /EPG sources tab -->
+
+							<!-- Info panel tab -->
+							<div id="tab-server-settings-info" class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="webui-url"></label>
+									<div class="controls">
+										<div id="webui_url"></div>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="webui-password"></label>
+									<div class="controls">
+										<input type="text" id="webui_password" value="" />
+										<input class="btn btn-info translate" type="button" id="btn_save_webui_password" value="" data-translate-attr="value" data-string-id="save" />
+									</div>
+								</div>
+
+							</div>
+							<!-- /Info panel tab -->
+
+							<!-- Sync tab -->
+							<div id="tab-media-server-sync" class="form-horizontal">
+							</div>
+							<!-- /Sync tab -->
+
+						</div> <!-- //tabs -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="ask" class="popup">
+	<div class="overlay"></div>
+	<div class="wrap">
+		<div class="close"><i class="icon icon-remove"></i></div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="widget-box">
+						<div class="widget-title">
+							<h5 class="translate" data-string-id="ask-question"></h5>
+						</div>
+						<div class="widget-content nopadding">
+							<form action="/help/ask" method="post" class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="question-category"></label>
+									<div class="controls">
+										<select name="category" id="ask-form-category">
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="your-email"></label>
+									<div class="controls">
+										<input type="text" name="email" id="ask-form-email" value="" />
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="your-question"></label>
+									<div class="controls">
+										<textarea name="text" id="ask-form-text"></textarea>
+									</div>
+								</div>
+								<div class="form-actions">
+									<input class="btn btn-info translate" type="button" id="btn-ask-form-submit" data-translate-attr="value" data-string-id="send" value="" />
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="user-message-popup" class="popup">
+	<div class="overlay"></div>
+	<div class="wrap" style="padding-bottom: 10px; color: inherit;">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="widget-box">
+						<div class="widget-title">
+							<h5></h5>
+						</div>
+						<div class="widget-content">
+						</div>
+					</div>
+					<div style="text-align: center; margin-top: 10px;">
+					    <input type="button" class="ok btn btn-info normal" value="OK" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="preferred-epg-languages-popup" class="popup">
+	<div class="overlay"></div>
+	<div class="wrap" style="padding-bottom: 10px; color: inherit;">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="widget-box">
+						<div class="widget-title">
+						<h5 class="translate" data-string-id="preferred-epg-languages"></h5>
+						</div>
+						<div class="widget-content">
+						</div>
+					</div>
+					<div style="text-align: center; margin-top: 10px;">
+					    <input type="button" class="ok btn btn-info normal" value="OK" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="epg-popup" class="popup2">
+	<div class="popup2-overlay"></div>
+	<div class="popup2-wrap" style="width: 750px;">
+        <div class="popup2-close"></div>
+        <div class="popup2-title">
+            <span class="translate" data-string-id="program-guide"></span>
+            <span id="epg-popup-channel-name"></span>
+        </div>
+        <div id="epg-popup-content" class="popup2-content"></div>
+	</div>
+</div>
+
+<div id="playlist-url-popup" class="popup2">
+	<div class="popup2-overlay"></div>
+	<div class="popup2-wrap" style="width: 750px;">
+        <div class="popup2-close"></div>
+        <div class="popup2-title">
+            <span class="translate" data-string-id="playlist-url"></span>
+        </div>
+        <div id="playlist-url-popup-content" class="popup2-content">
+    		<div class="current-category-name" style="font-size: 18px;">
+    		</div>
+        	<div class="current-playlist">
+        	</div>
+
+        	<div style="cursor: pointer; font-size: 18px; margin-top: 16px;" class="action-spoiler-toggle">
+        		<span class="translate" data-string-id="other">Other</span>
+        		<span class="spoiler-toggle">+</span>
+        	</div>
+        	<div class="other-playlists" style="display: none;">
+        		<div class="local-address" style="margin-top: 16px;">
+        			<div class="translate" data-string-id="local-address" style="font-size: 16px; border-bottom: 1px solid #888;"></div>
+        			<div class="url-list"></div>
+        		</div>
+        		<div class="local-network" style="margin-top: 16px;">
+        			<div class="translate" data-string-id="local-network" style="font-size: 16px; border-bottom: 1px solid #888;"></div>
+        			<div class="url-list"></div>
+        		</div>
+        		<div class="remote-access" style="margin-top: 16px;">
+        			<div class="translate" data-string-id="remote-access" style="font-size: 16px; border-bottom: 1px solid #888;"></div>
+        			<div class="url-list"></div>
+        		</div>
+        	</div>
+        </div>
+	</div>
+</div>
+
+<div id="share-popup" class="popup2">
+	<div class="popup2-overlay"></div>
+	<div class="popup2-wrap" style="width: 750px;">
+        <div class="popup2-close"></div>
+        <div class="popup2-title">
+            <span class="translate" data-string-id="share"></span>
+        </div>
+        <div class="popup2-content">
+        	<div class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label translate" data-string-id="content-id"></label>
+					<div class="controls">
+						<span class="value-content-id"></span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label translate" data-string-id="url-list"></label>
+					<div class="controls">
+						<div class="value-url-list"></div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label translate" data-string-id="web-player-link"></label>
+					<div class="controls">
+						<div class="value-share-url"></div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label translate" data-string-id="html-code"></label>
+					<div class="controls">
+						<div class="value-html-code"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+	</div>
+</div>
+
+<div id="content-id-popup" class="popup3 popup3-has-bottom-prong" style="width: 500px;">
+    <div class="popup3-main">
+        <div class="popup3-close"></div>
+        <div class="popup3-content">
+            Content ID: <span id="content-id-popup-value"></span>
+        </div>
+        <div class="bottom-prong" style="left: 241px;">
+            <div class="prong-dk"></div>
+            <div class="prong-lt"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+var header = $('#header').height();
+var footer = $('#footer').height() || 0;
+
+function autoResizeDiv()
+{
+    document.getElementById('content').style.minHeight = window.innerHeight - footer - header - 37 - 55 +'px';
+    $('.cbp-spmenu').css({"min-height": window.innerHeight - 65 +'px'});
+}
+window.onresize = autoResizeDiv;
+autoResizeDiv();
+</script>
+
+<script src="/webui/javascript/init.js"></script>
+
+</body>
+
+</html>

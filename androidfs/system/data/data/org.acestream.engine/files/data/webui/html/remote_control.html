@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Remote Control - Ace Stream</title>
+
+        <link href='//fonts.googleapis.com/css?family=Roboto&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <link rel="icon" type="image/x-icon" href="/webui/images/favicon.ico">
+        <link rel="stylesheet" href="/webui/css/remote-control.css" />
+        <link rel="stylesheet" href="/webui/css/seekbar.css" />
+
+        <script src="/webui/javascript/jquery-1.10.2.min.js"></script>
+        <script src="/webui/javascript/remote-control.js"></script>
+        <script src="/webui/javascript/seekbar.js"></script>
+        <script>
+            var _LANG = {};
+        </script>
+        <script src="/webui/javascript/lang.ru_RU.js"></script>
+        <script src="/webui/javascript/lang.en_EN.js"></script>
+    </head>
+    <body>
+
+        <div id="page-wrapper">
+            <div id="page">
+                <div id="wrapper">
+                    <div id="volume-bar-container">
+                        <div id="volume-min" class="volume-image"></div>
+                        <div class="seekbar-container">
+                            <div id="volume-bar" class="seekbar"></div>
+                        </div>
+                        <div id="volume-max" class="volume-image"></div>
+                    </div>
+
+                    <div id="content-info" class="live">
+                        <div id="message-box"></div>
+                        <div class="spinner-container">
+                            <div id="spinner-buffering"></div>
+                        </div>
+                    </div>
+
+                    <div id="engine-info">Helping:0&nbsp;&nbsp;DL:0&nbsp;&nbsp;UL:0</div>
+                    <div id="content-title"></div>
+
+                    <div id="progress-info">
+                        <div id="progress-bar-container">
+                            <div id="progress-bar" class="seekbar"></div>
+                        </div>
+                        <div id="text-position">00:00:00</div>
+                        <div id="text-duration">00:00:00</div>
+                    </div>
+                </div> <!-- /#wrapper -->
+
+                <div class="buttons-container-wrap">
+                    <div class="buttons-container-wrap-2">
+                        <div class="buttons-container">
+                            <div class="button" id="btn-stop"></div>
+                            <div class="button" id="btn-prev" style="display: none;"></div>
+                            <div class="button" id="btn-play"></div>
+                            <div class="button" id="btn-next" style="display: none;"></div>
+                            <div class="button disabled" id="btn-select-device"></div>
+                        </div>
+                    </div>
+                </div> <!-- /#wrapper -->
+            </div> <!-- /#page -->
+        </div> <!-- /#page-wrapper -->
+
+        <div id="toast"></div>
+
+        <div id="shutdown-overlay">
+            <div id="shutdown-overlay-content">
+                <div style="color: #fff; font-size: 24px; text-align: center;">
+                    <span class="translate" data-string-id="remote-control-disconnected"></span>
+                    <br/>
+                    <span class="translate" data-string-id="close-this-page"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-wrap">
+            <div class="popup-container">
+                <div id="select-device-popup" class="popup-content">
+                    <div class="dialog-title translate" data-string-id="select-player"></div>
+                    <ul class="select-device-list">
+                    </ul>
+                    <div class="dialog-actions">
+                        <div class="dialog-button dialog-close translate" data-string-id="cancel"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-wrap">
+            <div class="popup-container">
+                <div id="alert-popup" class="popup-content">
+                    <div class="dialog-text"></div>
+                    <div class="dialog-actions"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-wrap">
+            <div class="popup-container">
+                <div id="input-popup" class="popup-content">
+                    <div class="dialog-text dialog-text-grey"></div>
+                    <div class="dialog-input-container">
+                        <input type="text" class="dialog-input" />
+                    </div>
+                    <div class="dialog-actions">
+                        <div class="dialog-button dialog-cancel translate" data-string-id="cancel"></div>
+                        <div class="dialog-button dialog-ok">
+                            OK
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            RemoteControl.init({{params}});
+        </script>
+
+    </body>
+</html>

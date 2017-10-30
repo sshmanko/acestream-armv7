@@ -1,0 +1,38 @@
+#!/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+ACEADDON=$(readlink -f $(dirname $0))
+ACECHROOT="androidfs"
+
+if ! [ $(id -u) = 0 ]; then
+        PERMISSION=sudo
+fi
+
+if mount | grep -E "( $ACEADDON/$ACECHROOT/proc | $ACEADDON/$ACECHROOT/sys | $ACEADDON/$ACECHROOT/dev )" >/dev/null; then
+
+     $PERMISSION pkill -9 -f "/system/data/data/org.acestream.engine/files/python/bin/python" &>/dev/null
+     $PERMISSION pkill -9 -f "/system/bin/acestream.sh" &>/dev/null
+     $PERMISSION umount $ACEADDON/$ACECHROOT/proc
+     $PERMISSION umount $ACEADDON/$ACECHROOT/sys
+     $PERMISSION umount $ACEADDON/$ACECHROOT/dev
+     sleep 2
+fi
+
+$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/dev
+$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/proc
+$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/sys
+
+$PERMISSION mount -o bind /dev $ACEADDON/$ACECHROOT/dev &>/dev/null
+$PERMISSION mount -t proc proc $ACEADDON/$ACECHROOT/proc &>/dev/null
+$PERMISSION mount -t sysfs sysfs $ACEADDON/$ACECHROOT/sys &>/dev/null
+
+$PERMISSION chroot $ACEADDON/$ACECHROOT /system/bin/sh -c "cd /system/data/data/org.acestream.engine/files ; /system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1 - << EOF
+
+from acestreamengine import Core
+
+params = "$@".split(' ')
+if params == ['']:
+    params = []
+
+Core.run(params)
+EOF
