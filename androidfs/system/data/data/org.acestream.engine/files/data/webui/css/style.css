@@ -1,0 +1,300 @@
+.select-lang-ru {
+  background-image: url("/img/lang_ru_min.png") !important;
+}
+.select-lang-en {
+  background-image: url("/img/lang_en_min.png") !important;
+}
+.choice_widget_checkbox_or_radio div{
+  display: inline;
+  float: left;
+}
+
+
+body {
+	background-color: #444444;
+}
+
+#header, #footer {
+    /*box-shadow: 0 1px 0 #333333;
+	background-color: #333333;
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#3F3F3F), to(#222222));
+    background-image: -webkit-linear-gradient(top, #3F3F3F 0%, #222222 100%);
+    background-image: -moz-linear-gradient(top, #3F3F3F 0%, #222222 100%);
+	background-image: -ms-linear-gradient(top, #3F3F3F 0%, #222222 100%);
+	background-image: -o-linear-gradient(top, #3F3F3F 0%, #222222 100%);
+	background-image: linear-gradient(top, #3F3F3F 0%, #222222 100%);
+    border-bottom: 1px solid #555555;*/
+	background: #2A2A2A;
+}
+
+#header h1 {
+	background: none;
+    height: 55px;
+    left: 35px;
+    line-height: 600px;
+    overflow: hidden;
+    position: relative;
+    top: 11px;
+    width: 191px;
+}
+
+#header h1 a {
+    display: block;
+}
+#header h1 img{ 
+	position: absolute;
+	top: 0;
+	left: 0; 
+}
+
+#search input[type=text], #search button {
+	background-color: #222222;
+}
+#search input[type=text]:focus {
+	color: #777777;
+}
+
+.static-sidebar > ul {
+	border-top: 1px solid #393939;
+	border-bottom: 1px solid #4E4E4E;
+	/*position: relative;*/
+}
+.static-sidebar > ul > li {
+	border-top: 1px solid #4E4E4E;
+	border-bottom: 1px solid #393939;
+}
+.static-sidebar > ul > li.active {
+    background-color: #3a3a3a;
+	background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#333333), to(#3F3F3F));
+	background-image: -webkit-linear-gradient(top, #333333 0%, #3F3F3F 100%);
+	background-image: -moz-linear-gradient(top, #333333 0%, #3F3F3F 100%);
+	background-image: -ms-linear-gradient(top, #333333 0%, #3F3F3F 100%);
+	background-image: -o-linear-gradient(top, #333333 0%, #3F3F3F 100%);
+	background-image: linear-gradient(top, #333333 0%, #3F3F3F 100%);
+}
+
+.static-sidebar > ul > li.open.submenu > a {
+	border-bottom: 1px solid #393939;
+}
+.static-sidebar > ul > li.open.active.submenu > a {
+	border-bottom: 1px solid #2A2A2A;
+}
+.static-sidebar > ul > li > a > .label {
+	background-color: #333333;
+}
+.static-sidebar > ul > li > a:hover {
+	background-color: #4A4A4A;
+}
+.static-sidebar > ul ul {
+	border-top: 1px solid #4E4E4E;
+	background-color: #2A2A2A;
+}
+.static-sidebar > ul ul li a {
+	border-top: 1px solid #333333;
+	border-bottom: 1px solid #202020;
+}
+.static-sidebar > ul ul li a:hover, .static-sidebar > ul ul li.active a {
+	color: #CCCCCC;
+	background-color: #272727;
+}
+
+.dropdown-menu li a:hover, .dropdown-menu .active a, .dropdown-menu .active a:hover {
+    color: #eeeeee;
+	background-color: #444444;
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, #555555, #222222);
+    background-image: -webkit-linear-gradient(top, #555555 0%, #222222 100%);
+    background-image: -moz-linear-gradient(top, #555555 0%, #222222 100%);
+    background-image: -ms-linear-gradient(top, #555555 0%, #222222 100%);
+    background-image: -o-linear-gradient(top, #555555 0%, #222222 100%);
+    background-image: linear-gradient(top, #555555 0%, #222222 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555555', endColorstr='#222222',GradientType=0 ); /* IE6-9 */
+}
+
+.xxx-page {
+	display: none;
+}
+
+.centered {
+	display: table;
+	margin: auto;
+}
+.input {
+	cursor: text;
+}
+.input:hover {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+.add-btn {
+	float: right;
+}
+.amount .control-label{
+	width: 210px;
+	padding-top: 10px;
+}
+.amount .controls{
+	margin-left: 230px;
+}
+.amount .controls label {
+	display: inline-block;
+	margin-right: 15px;
+}
+.right {
+	float: right;
+}
+.btn-disabled, .btn-disabled:hover, .btn-disabled:active {
+	color: #999999;
+	cursor: default;
+	background-position: 0;
+	box-shadow: none;
+}
+button.close {
+	background: url(../img/close.png) no-repeat;
+	height: 20px;
+	width: 12px;
+}
+
+/* Sticky footer styles  -------------------------------------------------- */
+html,
+body {
+	height: 100%;
+	/* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+/*#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -60px;
+	padding: 0;
+}*/
+/* Set the fixed height of the footer here */
+#footer {
+	min-height: 60px;
+	width: 100%;
+    /*border-top: 1px solid #555555;*/
+	border-bottom: none;
+	padding: 10px 0;
+	color: #AAAAAA;
+	text-align: left;
+}
+#footer ul {
+	list-style: none;
+	margin: -5px 0 15px;
+}
+#footer h5 {
+	padding: 0 0px 0 20px;
+}
+#footer a{
+	color: #AAAAAA;
+}
+#footer a:hover {
+	text-decoration: underline;
+}
+.container {
+	padding-top: 15px;
+}
+.control-group .controls span {
+	margin-top: 5px;
+	display: inline-block;
+}
+
+.control-group  .controls.no-padding .checkbox  {
+	padding-left: 0;
+}
+.control-group  .controls.no-padding .checkbox  .checker {
+	margin-top: -10px;
+}
+.form-horizontal .form-actions {
+	padding-left: 200px;
+}
+.add_uri {
+	margin-bottom: 10px;
+}
+.add_uri .close {
+	margin-left: 15px;
+	float: none;
+}
+.accordion-heading .widget-title h5 {
+	width: 100%;
+}
+.form-horizontal p.control-group {
+	padding: 15px;
+}
+
+.widget-content .screenshot {
+	text-align: center;
+	margin: 20px 0;
+}
+.widget-content .screenshot span {
+	width: 25%;
+	margin: 0 5px;
+	display: inline-block;
+	text-align: center;
+}
+.widget-content .screenshot img{
+	height: 123px;
+}
+.widget-content p {
+	padding-left: 20px;
+}
+.static-sidebar > ul {
+	position: relative;
+}
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+#footer {
+	margin-left: -20px;
+	margin-right: -20px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+}
+  
+@media (max-width: 480px) {
+	.static-sidebar > a {
+		background-image: -moz-linear-gradient(top, #464646 0%, #404040 100%);
+		border-bottom: 1px solid #6e6e6e;
+	}
+	.static-sidebar > ul {
+		background-color: #444444;
+	}
+	#header h1 {
+		position: absolute;
+		left: 25px;
+	}
+}
+@media (min-width: 481px) and (max-width: 767px) {
+	.static-sidebar > ul ul:before {
+		border-right: 7px solid rgba(0, 0, 0, 0.2);
+	}
+	.static-sidebar > ul ul:after {
+		border-right: 6px solid #222222;
+    }
+	#header h1 {
+		left: 10px;
+		top: 5px;
+		width: 130px;
+	}
+	#content-header {
+		margin-top: -20px;
+	}
+	#user-nav {
+		top: 12px;
+	}
+	.form-horizontal .form-actions {
+		padding: 15px 10px;
+	}
+}
+@media (min-width: 768px) and (max-width: 850px) {
+	.form-horizontal .form-actions {
+		padding: 15px 10px;
+	}
+}

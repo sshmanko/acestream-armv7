@@ -1,0 +1,767 @@
+.popup {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100000;
+	display: none;
+}
+.popup .overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #000;
+	opacity: 0.9;
+	z-index: -1;
+}
+.popup .wrap{
+	width: 1003px;
+	height: auto;
+	background: #2b2b2b;
+	margin: 5% auto 0;
+	color: #f1f1f1;
+}
+.popup .scroll-container {
+	overflow: auto;
+}
+.popup .scroll-content {
+	padding: 2% 0;
+}
+.popup .top-panel {
+	height: 57px;
+	width: 100%;
+	position: relative;
+	background: #424242;
+}
+.popup .logo {
+	width: 46px;
+	height: 42px;
+	background: url(../img/popup-logo.png) no-repeat;
+	position: absolute;
+	top: 8px;
+	left: 24px;
+}
+.popup .title {
+	font-size: 16px;
+	color: #eaeaea;
+	font-style: italic;
+	line-height: 57px;
+	position: absolute;
+	left: 88px;
+	top: 0;
+}
+.popup .close {
+	width: 48px;
+	height: 32px;
+	background: url(../images/popup-close.png) no-repeat;
+	position: absolute;
+	right: 14px;
+	top: 14px;
+	cursor: pointer;
+	opacity: 1;
+}
+#popup-pay .function {
+	color: #FFFFFF;
+    font-size: 24px;
+    height: 85px;
+    line-height: 85px;
+    text-align: center;
+}
+#popup-pay .function .title-checkbox{
+	display: inline-block;
+}
+#popup-pay .function .checker {
+	margin-right: 29px;
+	margin-top: -11px;
+    height: 26px;
+    width: 22px;
+}
+#popup-pay .function .checker span{
+	background: url(../img/title-chekcbox.png) no-repeat 0 0;
+    display: inline-block;
+    height: 26px;
+    width: 22px;
+    position: absolute;
+	top: 0;
+	left: 0;
+}
+#popup-pay .function .checker span.checked {
+	background-position: -23px 0;
+}
+#popup-pay .function .checker input{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.popup .info-block {
+	height: 56px;
+    line-height: 56px;
+}
+.popup .info-block p{
+	margin: 0;
+}
+#popup-pay .info-block div.left {
+	padding: 0 180px 0 90px;
+}
+#popup-pay .info-block div.right {
+	float: none;
+}
+#popup-pay .pay-option {
+	position: relative;
+}
+#popup-pay .pay-option .logo {
+	position: absolute;
+	left: 86px;
+}
+#popup-pay .pay-option.interkassa {
+	margin: 43px 0 25px;
+	height: 156px;
+}
+#popup-pay .pay-option.interkassa .logo {
+	width: 244px;
+	height: 62px;
+	background: url(../img/interkassa.png) no-repeat;
+	top: 38px;
+}
+#popup-pay .pay-option.ace-deposit {
+	height: 125px;
+}
+#popup-pay .pay-option.ace-deposit .logo {
+	width: 208px;
+	height: 52px;
+	background: url(../img/deposit.png) no-repeat;
+	top: 32px;
+}
+#popup-pay .pay-option .content{
+	background: #424242;
+	height: 100%;
+	width: 574px;
+	position: absolute;
+	right: 72px;
+	font-size: 15px;
+}
+#popup-pay .pay-option .content .line{
+	width: 2px;
+	height: 100%;
+	background: url(../img/popup-line.png) repeat-y;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+#popup-pay .pay-option .content p {
+	padding: 0 30px;
+}
+#popup-pay .pay-option .content p.summ {
+	line-height: 36px;
+	margin-top: 20px;
+}
+#popup-pay .pay-option .content b.arrow {
+	border-bottom: 7px solid transparent;
+    border-right: 7px solid #424242;
+    border-top: 7px solid transparent;
+    box-shadow: none;
+    left: -7px;
+    position: absolute;
+    text-shadow: none;
+    top: 45%;
+	background: transparent;
+	height: auto;
+	width: auto;
+}
+#popup-pay .ace-btn.buy, #popup .ace-btn.buy:hover {
+	width: 185px;
+	height: 36px;
+	line-height: 36px;
+	background: #5493b8;
+	color: #f1f1f1;
+	display: inline-block;
+	position: absolute;
+    right: 26px;
+    top: 20px;
+}
+#popup-pay .payment {
+	padding: 0px 40px;
+}
+#popup-pay .option-block {
+	width: 175px;
+	float: left;
+	margin-right: 68px;
+}
+#popup-pay .option-block.ace-money{
+	margin-right: 0;
+}
+#popup-pay .option-block .img {
+	height: 86px;
+	background: url(../img/pay-sprite.png) no-repeat;
+	margin: auto;
+    width: 158px;
+}
+#popup-pay .card .img {
+	background-position: -320px 0;
+}
+#popup-pay .card:hover .img {
+	background-position: -479px 0;
+}
+#popup-pay .box .img {
+	background-position: 0 0;
+}
+#popup-pay .box:hover .img {
+	background-position: -160px 0;
+}
+#popup-pay .other .img {
+	background-position: -640px 0;
+}
+#popup-pay .other:hover .img {
+	background-position: -799px 0;
+}
+#popup-pay .ace-money .img {
+	background-position: -960px 0;
+}
+#popup-pay .option-block .title {
+	position: relative;
+	top: 0;
+	left: 0;
+	text-align: center;
+	font-style: normal;
+	font-size: 15px;
+	line-height: 40px;
+	margin-bottom: 10px;
+}
+#popup-pay .option-block .ace-btn, #popup-first-login .ace-btn {
+	width: 158px;
+	height: 29px;
+	line-height: 29px;
+	color: #2b2b2b;
+	background: #fff;
+	margin: 0 auto 17px;
+	display: block;
+	border-radius: 3px;
+	text-transform: none;
+}
+#popup-pay .option-block .ace-btn:hover, #popup-first-login .ace-btn:hover {
+	color: #f1f1f1;
+	background: #5493b8;
+}
+#popup-pay .option-block .ace-btn.disabled, #popup-pay .option-block .ace-btn.disabled:hover {
+	color: #c2c0c0;
+	background: #424242;
+	cursor: default;
+}
+#popup-pay .paypal {
+	margin-bottom: 13px;
+}
+#popup-pay .paypal-btn {
+	width: 150px;
+	height: 33px;
+	background: url(../img/paypal.png) no-repeat;
+	cursor: pointer;
+}
+#popup-pay .paypal-btn.disabled {
+	background: url(../img/paypal-disabled.png) no-repeat;
+	cursor: default;
+}
+#popup-pay .option-block .tip {
+	width: 90%;
+	background: #5493b8;
+	color: #fff;
+	font-size: 11px;
+	padding: 5%;
+	margin-bottom: 17px;
+}
+#popup-pay .option-block .tip.gray {
+	background: #424242;
+	margin-top: 13px;
+}
+
+#popup-first-login.popup .wrap {
+	background: #424242;
+	height: auto;
+	width: 783px;
+}
+#popup-first-login .top-panel {
+	height: 60px;
+	line-height: 60px;
+}
+#popup-first-login.popup .close {
+	width: 44px;
+	height: 29px;
+	background: none;
+	right: 11px;
+}
+#popup-first-login.popup .close img{
+	width: 100%;
+}
+#popup-first-login .info-block {
+	color: #444444;
+    font-weight: bold;
+	background: #f1f1f1;
+	margin: 0px;
+	padding: 0 55px;
+	position: relative;
+	height: 50px;
+	line-height: 50px;
+}
+#popup-first-login.popup .scroll-content {
+	padding: 60px 0 85px;
+}
+#popup-first-login .control-group {
+	margin-bottom: 10px;
+}
+#popup-first-login input[type="text"],
+#popup-first-login input[type="password"],
+#popup-first-login select {
+	background: #555555;
+    width: 70%;
+	border: none;
+	color: #8d8d8d;
+	height: 25px;
+	line-height: 35px;
+	padding: 5px 10px;
+	margin: 0;
+}
+#popup-first-login input[type="text"]:focus,
+#popup-first-login input[type="password"]:focus {
+	box-shadow: none !important;
+}
+#popup-first-login select {
+	border: none;
+	height: 35px;
+	padding: 10px;
+	width: 100%;
+}
+#popup-first-login select option{
+	background: #F1F1F1;
+    border: none;
+    padding: 5px 10px;
+}
+#popup-first-login select option:hover,
+#popup-first-login select option:focus {
+	background: #555555;
+}
+#popup-first-login .your-name input.first {
+	float: left;
+}
+#popup-first-login .your-name input.last {
+	float: right;
+}
+#popup-first-login .date input, 
+#popup-first-login .date select {
+	float: left;
+	width: 27%;
+	margin-left: 2%;
+}
+#popup-first-login .date select {
+	width: 35%;
+	margin-left: 0;
+}
+#popup-first-login .temporar input[type="text"] {
+	background: #f1f1f1;
+	color: #5493b8;
+}
+#popup-first-login label {
+	float: left;
+    line-height: 35px;
+    padding: 0 45px 0 0px;
+	text-align: right;
+	width: 240px;
+	margin: 0;
+}
+#popup-first-login .controls, 
+#popup-first-login .btn-block {
+	margin-left: 285px;
+	width: 60%;
+}
+#popup-first-login .ace-btn {
+	width: 158px;
+	margin: 0;
+}
+#popup-first-login .btn-block {
+	margin-top: 40px;
+}
+#popup-first-login .btn-block .ace-btn{
+	width: 143px;
+	height: 33px;
+	line-height: 33px;
+}
+#popup-first-login .checker {
+	margin-right: 24px;
+}
+#popup-first-login  .checker span {
+	width: 26px;
+	height: 26px;
+	background: url(../img/check-box.png) no-repeat -60px 0;
+}
+#popup-first-login .checker span.checked {
+	background-position: -89px 0;
+}
+#popup-first-login .checker input {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+.popup .alert-danger, .popup .alert-error, .popup .info-block.error{
+	background: #F88171;
+    border: none;
+    border-radius: 0;
+    color: #fff;
+    font-weight: bold;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: none;
+    margin-bottom: 1%;
+}
+#popup-first-login.popup .alert-danger, 
+#popup-first-login.popup .alert-error {
+	background: #F88171;
+    height: 100%;
+    left: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    line-height: 56px;
+	z-index: 1;
+}
+.short-text {
+	display: none;
+}
+.popup .type-selection {
+	width: 14px; 
+	height: 14px; 
+	padding: 9px;
+	position: absolute; 
+	top: 14px; 
+	right: 68px; 
+	cursor: pointer; 
+	text-align: center;	
+}
+.popup .type-selection  .icon{
+	display: none;
+	background-image: url(../img/glyphicons-halflings-white.png);
+	opacity: 0.7;
+}
+.popup .type-selection:hover .icon{
+	opacity: 1;
+}
+.popup .type-selection  .icon.active{
+	display: block;
+}
+@media (min-width: 1140px) and (max-width: 1280px) {
+	
+}
+@media (min-width: 1024px) and (max-width: 1140px) {
+	
+}
+@media (min-width: 980px) and (max-width: 1024px) {
+	
+}
+@media (max-width: 1100px) {
+	.popup .wrap {
+		width: 90%;
+	}
+	#popup-first-login .controls, #popup-first-login .btn-block {
+		margin-left: 30%;
+	}
+	#popup-first-login .date select {
+		width: 30%;
+	}
+	#popup-pay .info-block div.left {
+		float: left;
+		padding: 0 0 0 5%;
+	}
+	#popup-pay .info-block div.right {
+		float: right;
+		padding: 0 5% 0 0px;
+	}
+	#popup-pay .pay-option .logo {
+		width: 35%;
+		left: 5%;
+	}
+	#popup-pay .pay-option .content {
+		width: 55%;
+		right: 5%;
+		min-height: 100%;
+		height: auto;
+	}
+	#popup-pay .pay-option.interkassa {
+		margin-bottom: 7%;
+	}
+	#popup-pay .option-block {
+	    margin-right: 1%;
+	}
+}
+@media (max-width: 980px) {
+	.payment {
+		padding: 33px 0;
+	}
+	.option-block, .option-block.ace-money {
+		margin: 0 2.5%;
+	}
+	#popup-first-login .info-block,
+	#popup-first-login.popup .alert-danger, #popup-first-login.popup .alert-error{
+		line-height: 150%;
+		text-align: center;
+		padding: 15px 0;
+		height: auto;
+	}
+}
+@media (max-width: 850px) {
+	#popup-pay .pay-option.interkassa {
+		margin-bottom: 10%;
+	}
+	#popup-pay .pay-option .content {
+		width: 50%;
+	}
+}
+@media (max-width: 800px) {
+	.option-block, .option-block.ace-money {
+		margin: 0 1.5%;
+		width: 158px;
+	}
+	.option-block .title {
+		font-size: 13px;
+	}
+	.top-panel .title {
+		font-size: 14px;
+	}
+	#popup-pay .info-block div.left {
+		float: left;
+		padding: 0 0 0 2%;
+	}
+	#popup-pay .info-block div.right {
+		float: right;
+		padding: 0 2% 0 0px;
+	}
+	.option-block, .option-block.ace-money {
+		height: 300px;
+		margin: 0px 12%;
+		width: 175px;
+	}
+	.option-block.card,
+	.option-block.box {
+		margin-top: 20px;
+	}
+}
+@media (max-width: 793px) {
+	#popup-first-login.popup .wrap {
+		width: 96%;
+	}
+}
+@media (max-width: 768px) {		
+	#popup-first-login.popup .alert-danger, 
+	#popup-first-login.popup .alert-error {
+		top: 100%;
+	}
+	.info-block .checker {
+		margin: 0 10px;
+	}
+	.payment {
+		padding: 33px 0;
+	}
+	#popup-pay .function {
+		font-size: 18px;
+	}
+	#popup-pay .pay-option .content {
+		width: 90%;
+		margin: 0 5%;
+		position: relative;
+		right: 0;
+		padding-bottom: 10px;
+	} 
+	#popup-pay .pay-option .logo {
+		left: 0;
+		margin: auto;
+		position: relative;
+		top: 0 !important;
+	}
+	#popup-pay .pay-option {
+		height: auto !important;
+	}
+	#popup-pay .pay-option .content p.summ {
+		padding-top: 20px;
+	}
+	#popup-pay .pay-option .content b.arrow {
+		border-bottom: 7px solid #424242;
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		left: 49%;
+		top: -14px;
+	}
+}
+@media (max-width: 670px) {
+	.long-text {
+		display: none;
+	}
+	.short-text {
+		display: inline-block;
+	}
+	#popup-first-login .date input, #popup-first-login .date select {
+		width: 26%;
+	}
+	#popup-pay .info-block {
+		line-height: 70px;
+		height: 80px;
+	}
+	#popup-pay .info-block div.left, #popup-pay .info-block div.right {
+		font-size: 11px;
+		line-height: 150%;
+		padding: 10px 0;
+		text-align: center;
+		width: 100%;
+	}
+	#popup-first-login .controls, #popup-first-login .btn-block {
+		margin-left: 285px;
+		width: 55%;
+	}
+}
+@media (max-width: 600px) {
+	.payment {
+		padding: 33px 0;
+	}
+	.option-block, .option-block.ace-money {
+		margin: 20px 8%;
+	}
+	.option-block.other, .option-block.ace-money {
+		margin-top: -50px;
+	}
+	#popup-pay .function {
+		font-size: 16px;
+	}
+	#popup-pay .function .checker {
+		margin-right: 20px;
+		margin-top: 0;
+	}
+	#popup-first-login input[type="text"], 
+	#popup-first-login input[type="password"], 
+	#popup-first-login select,
+	#popup-first-login .your-name input[type="text"] {
+		width: 60%;
+	}
+	#popup-first-login .date select {
+		width: 29%;
+	}
+	#popup-first-login .jspVerticalBar {
+		right: 0;
+		width: 10px;
+	}
+}
+@media (max-width: 530px) {
+	#popup-first-login label {
+		width: 220px;
+		padding-right: 20px;
+	}
+	#popup-first-login .controls, #popup-first-login .btn-block {
+		margin-left: 240px;
+		width: 35%;
+	}
+	#popup-first-login input[type="text"], 
+	#popup-first-login input[type="password"], 
+	#popup-first-login select,
+	#popup-first-login .your-name input[type="text"] {
+		width: 100%;
+	}
+	.option-block, .option-block.ace-money {
+		margin: 0 26% 20px !important;
+	}
+	#popup-pay .function {
+		font-size: 12px;
+	}
+	.top-panel .title {
+		width: 163px;
+		font-size: 12px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+		left: 80px;
+	}
+	#popup-first-login .top-panel .title {
+		width: 90%;
+	}
+}
+@media (max-width: 480px) {
+	.payment {
+		padding: 33px 0;
+	}
+	#popup-pay .function .checker {
+		margin-right: 20px;
+		margin-top: -2px;
+	}
+}
+@media (max-width: 385px) {
+	#popup-first-login input[type="text"], #popup-first-login input[type="password"], #popup-first-login select, #popup-first-login .your-name input[type="text"] {
+		width: 70%;
+		float: none;
+	}
+	#popup-first-login .date select {
+		width: 100%;
+	}
+	#popup-first-login label {
+		width: 95%;
+		text-align: left;
+		padding: 0 0 0 5%;
+	}
+	#popup-first-login .controls, #popup-first-login .btn-block {
+		width: 95%;
+		margin-left: 5%;
+	}
+}
+@media (max-width: 360px) {
+	#popup-pay .info-block div.left {
+		float: left;
+		padding: 2px 0 0;
+		font-size: 11px;
+	}
+	.info-block .checker {
+		margin: 0 10px;
+	}
+	#popup-pay .info-block div.right {
+		float: right;
+		padding: 0 5% 0 0px;
+	}
+	.payment {
+		padding: 33px 0;
+	}
+	#popup-pay .option-block {
+		width: 100%;
+		margin: 0 0 20px !important;
+		height: auto;
+	}
+	#popup-pay .function {
+		font-size: 12px;
+	}
+	.top-panel .title {
+		width: 163px;
+		font-size: 12px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+		left: 55px;
+	}
+	#popup-pay .function .checker {
+		margin-right: 10px;
+		margin-top: -2px;
+	}
+	#popup-pay .info-block {
+		height: 100px;
+		line-height: 100%;
+	}
+	.popup .logo {
+		left: 5px;
+	}	
+	#popup-pay .info-block p {
+		line-height: 150%;
+		padding: 10px 35px;
+	}
+	#popup-pay .ace-btn.buy, #popup .ace-btn.buy:hover {
+		width: 120px;
+	}
+}
+@media (max-width: 320px) {
+	.top-panel .title {
+		display: none;
+	}
+}

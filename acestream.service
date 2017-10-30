@@ -1,0 +1,11 @@
+[Unit]
+Description=Acestream Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/acestream/autostart.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
