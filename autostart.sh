@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 ACE_DIR=$(readlink -f $(dirname $0))

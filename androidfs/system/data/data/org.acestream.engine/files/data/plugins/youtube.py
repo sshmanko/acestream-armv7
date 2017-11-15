@@ -1,4 +1,4 @@
-#-plugin-sig:H6FwancsZmGzd0ZOhf1OKEwPutzLRSdfjqQsxVQCkkpMTrn8O0cm3AveX9UyhrH4X6+tzb+MTmGGBRAD/dtKN7wyDvzLZx9NZO97iCXjX3HGkDrCAWWtrrjO2+HCc0A8XDLChiNdQw2WObCzs5PNQtgNHqsGEi7AM1iRsqtlXzo9TuelNepAvWOPoxQtZ1/TlPNvaKWFqY59etE4oT/ro2Pq9C1DI7faNThxGFVGffyB/SIwjZDuSDMhP420E1jjvHVNjsyxA6CB6CyKEGPOfcsnfOnhHapO7BXIO2hJLBzU/BdotLjj3+Rz0XRQb87uMNBnUDVjxIkbZWqRzCaQiw==
+#-plugin-sig:bzMtTLk6Xa53TuHJXlc7Z89K8u1JPjauRCUAr1AyFs2OPwTiEJNPVcYzg1HohfttCrekf1uJ23/Uqmo/NFJEy2SJ7KZptY0sEchzfeGuYxGJVfYEStjT3XsjTZJIi7L9i4E68JBQrNPLJ8oBsNPOrcLYBGxVqW2osYr33lRQI0vlKlJ1b6v+wbf3vFYuum/ZENdAzOv+R1CGbzj5qD+Lb3Ijy5T3mFecFWGYNUhNrsOHi4lJkuDOjWNrcucHwhOVxyQpRnQ0p/UTCeebapDPkM2FMR7i3HXVvQpB+sy9hwnTmbWbFhQUoK46Qoz4F25IhvbcNUwJxM4mq643d0wRsg==
 import re
 
 from ACEStream.PluginsContainer.livestreamer.compat import urlparse, parse_qsl
@@ -90,6 +90,8 @@ _search_schema = validate.Schema(
     },
     validate.get("items")
 )
+
+#TODO: check "gaming.youtube.com"
 
 _channelid_re = re.compile('meta itemprop="channelId" content="([^"]+)"')
 _livechannelid_re = re.compile('meta property="og:video:url" content="([^"]+)')

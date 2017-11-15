@@ -1,4 +1,4 @@
-#-plugin-sig:E0XZW6X5BGUsNe6MrioYxM855MFshxF5Ig4XR6e2LcIAGWT47BaOTyv1HjjGS7YzYKrahWV65uSPSYx3Gwn5PE7+UeNQie6i6axel4QiXfF134vfkzbKSURKD3jN5cJOw/7wyVPU2vzdReInmDRMTJCPvsD2JebmUsR9o1KfWZh3ev1WhN3mmBU2IOJWp9iinXMauUuV2hscfb5mx2KOApTwGAFqhk/TdIQHffMqbcAE9a/S+flbLGyKFqS4YSxOASikalRK+jJqPpLQGHbaOkgL+DBhtPdCJlkySYqCV0tI2dCOwaZ9d5AuL2ZOL9r1xPY6NlnKYKMl3dS8P7WcSg==
+#-plugin-sig:jNYmRAgphTqebdyVRuEYx/DZbFP6UEJp4J22+58sHpPfAn2HwPJKyHsi8xaMaAwcqYkpHoGRtR+mN/TEB147CGpzwOijJmdcjHjahZitFeBdfyVMMt0gvOegBX8KCBLlVceoD61PHK8zYpwxZCHwoCs1KI5NbZJjMK+SgWlsd2u0TimQddL2U65jfYftT7MWI9rBwNBQkPFvAlOmQj1cpJ/jhY6p/LdjirCKiFsSKIBmSwuRi3/eba/wTasNSxOPlg94jez8EmRKBlQ08eQhBwTOs0AVhrArgAkx6Oq5/S+N3fvXjSM4gtDbM2/7v25zC7ACEahiRn/zFlNFavGkMw==
 import re
 import time
 
@@ -15,7 +15,7 @@ class TestPlugin(Plugin):
     def _get_streams(self):
         # sleep and return youtube vod
         time.sleep(3.0)
-        url = "https://youtu.be/scWpXEYZEGk"
+        url = "https://youtu.be/-xC6b108_P4"
         return self.session.streams(url)
 
 

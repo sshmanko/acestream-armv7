@@ -2,6 +2,8 @@
 # acestreamengine user arguments :
 ################################################################################
 
+export RUNAS=daemon:nogroup
+
 ACE_USER_ARG="--log-debug 0 \
               --login ACESTREAM_LOGIN \
               --password ACESTREAM_PASSW \
@@ -9,6 +11,9 @@ ACE_USER_ARG="--log-debug 0 \
               --bind-all \
               --live-cache-type memory \
               --live-cache-size 209715200 \
+              --cache-limit 60 \
+              --cache-dir /storage/.ACEStream \
+              --state-dir /storage/.ACEStream \
               --vod-drop-max-age 120 \
               --live-buffer 30 \
               --vod-buffer 10 \
@@ -25,3 +30,4 @@ ACE_USER_ARG="--log-debug 0 \
               --refill-buffer-interval 1 \
               --core-skip-have-before-playback-pos 1 \
               --webrtc-allow-outgoing-connections 1"
+

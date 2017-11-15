@@ -1,11 +1,10 @@
 # coding=utf-8
-#-plugin-sig:fFjmY62S0tGYV3cZt2lJz9+Zmvw/xoG/9jusM80WRTIiO83Ygoy7pTLxxqUS+HRKeLXQkvObBavX3GsXh5UZoCOq1LuKBIpuDLp5DAAFjxyt8yAgchcCl4F1qcaeWiAvk4JNw8aNRwPBxdfO+/T3pltMDqcNywmahN4R1OAA+4p64EUJB3ILSnZNhayAwQi/7wm78jb0AfDQvukgLTLuxLCFj0uUze+il8gVzN53kPUKo/X9USXunr9HfsJCDaBrKBtWv0j9ZIAuPscUbOs/GHTSqphUR0pOzpPGT+IbemDj8sHGKDapTv+pYyqr4fAlTzAhAqIzPJIbwGDDwxpSsw==
+#-plugin-sig:RAh0lpzufXOHFLQgbdjw15DdZ5WMpgV9V2h+ETkwttfoQrO/5SXCHsl4QMRGL3BJUeATJn6OuG9+UrHN/aqOG1WBR3qFCI928A1zpdgWSlHHS5gMsk7eIZqXRceQdqWp/ahfl+LIsTjoWAFB7YrpCTkbuSNElPYWboAfUIDREOs4kgGyo0fiNyOMAH7DWleOeVoydPRWE2pdeW3o7WTp121qatzorwF0kVhBTeeSrzkwWY5Mgs+qTjt/Oj+iJZp8wpqxwsETzrVA3dHwQeTE8yJpZRGqxjCP9ETG7aR5uiPFvreQm/1JODCQtROQ5lRoZBO/Iq6EScpZ5EUYr/ec1g==
 import re
-
-import requests
-
+import warnings
 from random import random
 
+import requests
 from ACEStream.PluginsContainer.livestreamer.compat import urlparse
 from ACEStream.PluginsContainer.livestreamer.exceptions import NoStreamsError, PluginError, StreamError
 from ACEStream.PluginsContainer.livestreamer.plugin import Plugin, PluginOptions
@@ -33,7 +32,7 @@ QUALITY_WEIGHTS = {
 }
 
 
-TWITCH_CLIENT_ID="pwkzresl8kj2rdj6g7bvxl9ys1wly3j"
+TWITCH_CLIENT_ID = "pwkzresl8kj2rdj6g7bvxl9ys1wly3j"
 
 _url_re = re.compile(r"""
     http(s)?://
@@ -41,9 +40,11 @@ _url_re = re.compile(r"""
         (?P<subdomain>[\w\-]+)
         \.
     )?
-    twitch.tv
-    /
-    (?P<channel>[^/]+)
+    twitch.tv/
+    (?:
+        videos/(?P<videos_id>\d+)|
+        (?P<channel>[^/]+)
+    )
     (?:
         /
         (?P<video_type>[bcv])
@@ -55,7 +56,7 @@ _url_re = re.compile(r"""
         (?P<clip_name>[\w]+)
     )?
 """, re.VERBOSE)
-_time_re = re.compile("""
+_time_re = re.compile(r"""
     (?:
         (?P<hours>\d+)h
     )?
@@ -181,9 +182,10 @@ class UsherService(object):
 
 
 class TwitchAPI(object):
-    def __init__(self, beta=False):
+    def __init__(self, beta=False, version=3):
         self.oauth_token = None
         self.subdomain = beta and "betaapi" or "api"
+        self.version = version
 
     def add_cookies(self, cookies):
         http.parse_cookies(cookies, domain="twitch.tv")
@@ -199,8 +201,11 @@ class TwitchAPI(object):
         else:
             url = "https://{0}.twitch.tv{1}".format(self.subdomain, path)
 
+        headers = {'Accept': 'application/vnd.twitchtv.v{0}+json'.format(self.version),
+                   'Client-ID': TWITCH_CLIENT_ID}
+
         # The certificate used by Twitch cannot be verified on some OpenSSL versions.
-        res = http.get(url, params=params, verify=False, headers={'Client-ID': TWITCH_CLIENT_ID})
+        res = http.get(url, params=params, verify=False, headers=headers)
 
         if format == "json":
             return http.json(res, schema=schema)
@@ -214,26 +219,27 @@ class TwitchAPI(object):
         self.subdomain = subdomain_buffer
         return response
 
-    def access_token(self, endpoint, asset, **params):
-        return self.call("/api/{0}/{1}/access_token".format(endpoint, asset), **params)
-
-    def channel_info(self, channel, **params):
-        return self.call("/api/channels/{0}".format(channel), **params)
-
-    def channel_subscription(self, channel, **params):
-        return self.call("/api/channels/{0}/subscription".format(channel), **params)
-
-    def channel_viewer_info(self, channel, **params):
-        return self.call("/api/channels/{0}/viewer".format(channel), **params)
-
-    def token(self, **params):
-        return self.call("/api/viewer/token", **params)
+    # Public API calls
 
     def user(self, **params):
         return self.call("/kraken/user", **params)
 
+    def users(self, **params):
+        return self.call("/kraken/users", **params)
+
     def videos(self, video_id, **params):
-        return self.call("/api/videos/{0}".format(video_id), **params)
+        return self.call("/kraken/videos/{0}".format(video_id), **params)
+
+    def channel_info(self, channel, **params):
+        return self.call("/kraken/channels/{0}".format(channel), **params)
+
+    # Private API calls
+
+    def access_token(self, endpoint, asset, **params):
+        return self.call("/api/{0}/{1}/access_token".format(endpoint, asset), **params)
+
+    def token(self, **params):
+        return self.call("/api/viewer/token", **params)
 
     def viewer_info(self, **params):
         return self.call("/api/viewer/info", **params)
@@ -242,7 +248,19 @@ class TwitchAPI(object):
         return self.call_subdomain("tmi", "/hosts", format="", **params)
 
     def clip_status(self, channel, clip_name, schema):
-        return http.json(self.call_subdomain("clips", "/api/v1/clips/" + channel + "/" + clip_name + "/status", format=""), schema=schema)
+        return http.json(self.call_subdomain("clips", "/api/v2/clips/" + clip_name + "/status", format=""), schema=schema)
+
+    # Unsupported/Removed private API calls
+
+    def channel_viewer_info(self, channel, **params):
+        warnings.warn("The channel_viewer_info API call is unsupported and may stop working at any time")
+        return self.call("/api/channels/{0}/viewer".format(channel), **params)
+
+    def channel_subscription(self, channel, **params):
+        warnings.warn("The channel_subscription API call has been removed and no longer works",
+                      category=DeprecationWarning)
+        return self.call("/api/channels/{0}/subscription".format(channel), **params)
+
 
 class Twitch(Plugin):
     options = PluginOptions({
@@ -265,19 +283,88 @@ class Twitch(Plugin):
 
     def __init__(self, url):
         Plugin.__init__(self, url)
-        match = _url_re.match(url).groupdict()
-        self.channel = match.get("channel").lower()
-        self.subdomain = match.get("subdomain")
-        self.video_type = match.get("video_type")
-        self.video_id = match.get("video_id")
-        self.clip_name = match.get("clip_name")
         self._hosted_chain = []
-
+        match = _url_re.match(url).groupdict()
         parsed = urlparse(url)
         self.params = parse_query(parsed.query)
+        self.subdomain = match.get("subdomain")
+        self.video_id = None
+        self.video_type = None
+        self._channel_id = None
+        self._channel = None
+        self.clip_name = None
 
-        self.api = TwitchAPI(beta=self.subdomain == "beta")
+        if self.subdomain == "player":
+            # pop-out player
+            if self.params.get("video"):
+                try:
+                    self.video_type = self.params["video"][0]
+                    self.video_id = self.params["video"][1:]
+                except IndexError:
+                    self.logger.debug("Invalid video param: {0}", self.params["video"])
+            self._channel = self.params.get("channel")
+        elif self.subdomain == "clips":
+            # clip share URL
+            self.clip_name = match.get("channel")
+
+            # handle embed:
+            # https://clips.twitch.tv/embed?clip=ImportantSlipperyEndiveBudStar
+            if self.clip_name.startswith("embed?clip="):
+                self.clip_name = self.clip_name.replace("embed?clip=", "")
+        else:
+            self._channel = match.get("channel") and match.get("channel").lower()
+            self.video_type = match.get("video_type")
+            if match.get("videos_id"):
+                self.video_type = "v"
+            self.video_id = match.get("video_id") or match.get("videos_id")
+            self.clip_name = match.get("clip_name")
+
+        self.api = TwitchAPI(beta=self.subdomain == "beta", version=5)
         self.usher = UsherService()
+
+    @property
+    def channel(self):
+        if not self._channel:
+            if self.video_id:
+                cdata = self._channel_from_video_id(self.video_id)
+                self._channel = cdata["name"].lower()
+                self._channel_id = cdata["_id"]
+        return self._channel
+
+    @channel.setter
+    def channel(self, channel):
+        self._channel = channel
+        # channel id becomes unknown
+        self._channel_id = None
+
+    @property
+    def channel_id(self):
+        if not self._channel_id:
+            # If the channel name is set, use that to look up the ID
+            if self._channel:
+                cdata = self._channel_from_login(self._channel)
+                self._channel_id = cdata["_id"]
+
+            # If the channel name is not set but the video ID is,
+            # use that to look up both ID and name
+            elif self.video_id:
+                cdata = self._channel_from_video_id(self.video_id)
+                self._channel = cdata["name"].lower()
+                self._channel_id = cdata["_id"]
+        return self._channel_id
+
+    def _channel_from_video_id(self, video_id):
+        vdata = self.api.videos(video_id)
+        if "channel" not in vdata:
+            raise PluginError("Unable to find video: {0}".format(video_id))
+        return vdata["channel"]
+
+    def _channel_from_login(self, channel):
+        cdata = self.api.users(login=channel)
+        if len(cdata["users"]):
+            return cdata["users"][0]
+        else:
+            raise PluginError("Unable to find channel: {0}".format(channel))
 
     def _authenticate(self):
         if self.api.oauth_token:
@@ -371,7 +458,7 @@ class Twitch(Plugin):
             chunk_stop = chunk_start + chunk_length
             chunk_stream = HTTPStream(self.session, chunk_url)
 
-            if start_offset >= chunk_start and start_offset <= chunk_stop:
+            if chunk_start <= start_offset <= chunk_stop:
                 try:
                     headers = extract_flv_header_tags(chunk_stream)
                 except IOError as err:
@@ -408,7 +495,7 @@ class Twitch(Plugin):
                 playlist_streams.append(chunk_stream)
                 for tag in headers:
                     playlist_tags.append(tag)
-            elif chunk_start >= start_offset and chunk_start < stop_offset:
+            elif start_offset <= chunk_start < stop_offset:
                 playlist_streams.append(chunk_stream)
 
             playlist_offset += chunk_length
@@ -417,7 +504,7 @@ class Twitch(Plugin):
                            tags=playlist_tags, duration=playlist_duration)
 
     def _get_video_streams(self):
-        self.logger.debug("Getting video steams for {} (type={})".format(self.video_id, self.video_type))
+        self.logger.debug("Getting video steams for {0} (type={1})".format(self.video_id, self.video_type))
         self._authenticate()
 
         if self.video_type == "b":
@@ -460,42 +547,44 @@ class Twitch(Plugin):
         return sig, token
 
     def _check_for_host(self):
-        channel_id = self.api.channel_info(self.channel)["_id"]
-        host_info = self.api.hosted_channel(include_logins=1, host=channel_id).json()["hosts"][0]
-        if "target_login" in host_info:
+        host_info = self.api.hosted_channel(include_logins=1, host=self.channel_id).json()["hosts"][0]
+        if "target_login" in host_info and host_info["target_login"].lower() != self.channel.lower():
             self.logger.info("{0} is hosting {1}".format(self.channel, host_info["target_login"]))
             return host_info["target_login"]
 
-    def _get_hls_streams(self, type="live"):
-        self.logger.debug("Getting {} HLS streams for {}".format(type, self.channel))
+    def _get_hls_streams(self, stream_type="live"):
+        self.logger.debug("Getting {0} HLS streams for {1}".format(stream_type, self.channel))
         self._authenticate()
-        hosted_channel = self._check_for_host()
-        if hosted_channel and self.options.get("disable_hosting"):
-            self.logger.info("hosting was disabled by command line option")
-            return {}
-        elif hosted_channel:
-            self.logger.info("switching to {}", hosted_channel)
-            if hosted_channel in self._hosted_chain:
-                self._hosted_chain.append(hosted_channel)
-                self.logger.error(u"A loop of hosted channels has been detected, "
-                                  "cannot find a playable stream. ({})".format(u" -> ".join(self._hosted_chain)))
-                return {}
-            self._hosted_chain.append(hosted_channel)
-            self.channel = hosted_channel
-            return self._get_hls_streams(type)
+        self._hosted_chain.append(self.channel)
 
-        sig, token = self._access_token(type)
-        if type == "live":
+        if stream_type == "live":
+            hosted_channel = self._check_for_host()
+            if hosted_channel and self.options.get("disable_hosting"):
+                self.logger.info("hosting was disabled by command line option")
+            elif hosted_channel:
+                self.logger.info("switching to {0}", hosted_channel)
+                if hosted_channel in self._hosted_chain:
+                    self.logger.error(u"A loop of hosted channels has been detected, "
+                                      "cannot find a playable stream. ({0})".format(u" -> ".join(self._hosted_chain + [hosted_channel])))
+                    return {}
+                self.channel = hosted_channel
+                return self._get_hls_streams(stream_type)
+
+            # only get the token once the channel has been resolved
+            sig, token = self._access_token(stream_type)
             url = self.usher.channel(self.channel, sig=sig, token=token)
-        elif type == "video":
+        elif stream_type == "video":
+            sig, token = self._access_token(stream_type)
             url = self.usher.video(self.video_id, nauthsig=sig, nauth=token)
         else:
-            self.logger.debug("Unknown HLS stream type: {}".format(type))
+            self.logger.debug("Unknown HLS stream type: {0}".format(stream_type))
             return {}
 
         try:
-            # streams = HLSStream.parse_variant_playlist(self.session, url)
-            streams = {"variant" :HLSStream(self.session, url) }
+            # If the stream is a VOD that is still being recorded the stream should start at the
+            # beginning of the recording
+            streams = HLSStream.parse_variant_playlist(self.session, url,
+                                                       force_restart=not stream_type == "live")
         except IOError as err:
             err = str(err)
             if "404 Client Error" in err or "Failed to parse playlist" in err:
@@ -529,8 +618,8 @@ class Twitch(Plugin):
             else:
                 return self._get_video_streams()
         elif self.clip_name:
-                return self._get_clips()
-        else:
+            return self._get_clips()
+        elif self._channel:
             return self._get_hls_streams("live")
 
 

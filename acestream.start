@@ -1,23 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 ACEADDON=$(readlink -f $(dirname $0))
 ACECHROOT="androidfs"
 
 if ! [ $(id -u) = 0 ]; then
-        PERMISSION=sudo
+   PERMISSION=sudo
 fi
 
 if mount | grep -E "( $ACEADDON/$ACECHROOT/proc | $ACEADDON/$ACECHROOT/sys | $ACEADDON/$ACECHROOT/dev )" >/dev/null; then
-
-     $PERMISSION pkill -9 -f "/system/data/data/org.acestream.engine/files/python/bin/python" &>/dev/null
-     $PERMISSION pkill -9 -f "/system/bin/acestream.sh" &>/dev/null
-     $PERMISSION umount $ACEADDON/$ACECHROOT/proc
-     $PERMISSION umount $ACEADDON/$ACECHROOT/sys
-     $PERMISSION umount $ACEADDON/$ACECHROOT/dev
-     sleep 2
+  if [ $? -eq 0 ]; then
+   $PERMISSION pkill -9 -f "/system/data/data/org.acestream.engine/files/python/bin/python" &>/dev/null
+   $PERMISSION pkill -9 -f "/system/bin/acestream.sh" &>/dev/null
+   #unmount directories
+   $PERMISSION umount $ACEADDON/$ACECHROOT/proc &>/dev/null
+   $PERMISSION umount $ACEADDON/$ACECHROOT/sys &>/dev/null
+   $PERMISSION umount $ACEADDON/$ACECHROOT/dev &>/dev/null
+   sleep 2
+  fi
 fi
 
+$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/system
+$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/storage
 $PERMISSION mkdir -p $ACEADDON/$ACECHROOT/dev
 $PERMISSION mkdir -p $ACEADDON/$ACECHROOT/proc
 $PERMISSION mkdir -p $ACEADDON/$ACECHROOT/sys
@@ -26,7 +30,14 @@ $PERMISSION mount -o bind /dev $ACEADDON/$ACECHROOT/dev &>/dev/null
 $PERMISSION mount -t proc proc $ACEADDON/$ACECHROOT/proc &>/dev/null
 $PERMISSION mount -t sysfs sysfs $ACEADDON/$ACECHROOT/sys &>/dev/null
 
-$PERMISSION chroot $ACEADDON/$ACECHROOT /system/bin/sh -c "cd /system/data/data/org.acestream.engine/files ; /system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1 - << EOF
+$PERMISSION chown -R root:root $ACEADDON/$ACECHROOT/system
+$PERMISSION find $ACEADDON/$ACECHROOT/system -type d -exec chmod 755 {} \;
+$PERMISSION find $ACEADDON/$ACECHROOT/system -type f -exec chmod 644 {} \;
+$PERMISSION chmod 755 $ACEADDON/$ACECHROOT/system/bin/* $ACEADDON/$ACECHROOT/system/data/data/org.acestream.engine/files/python/bin/python
+[ -n "$RUNAS" ] && $PERMISSION chown -R $RUNAS $ACEADDON/$ACECHROOT/storage
+
+[ -n "$RUNAS" ] && USERSPEC="--userspec=$RUNAS"
+$PERMISSION chroot $USERSPEC $ACEADDON/$ACECHROOT /system/bin/sh -c "cd /system/data/data/org.acestream.engine/files ; /system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1 - << EOF
 
 from acestreamengine import Core
 

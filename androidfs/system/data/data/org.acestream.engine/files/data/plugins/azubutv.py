@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-plugin-sig:fkASsQP1P8P64o/mQsdfdV2GA5EuM8tTZd7o3zbqE6lf8fiee/5DlbWvvwD++DykwhwC8dQsAXBK+6+r4ObDAUucnxKoIgVpRFIZlbSDuEHZxwqOSk0PpCTriWJhquJY0KyzAQZrs9tEnfhDFzttk76+Qj1aeBF1JG8Gf7dSRZ/lonwWsuDkXgVvP7ue1jA8PUGLItV5aFl/mvFlrtU3C0c6ugsGiGetBs17povXFoJu5FDkmTkBLnesO2YhX8xEL7Pf5auM7KryrxIr/AWZR8hlTpKYQ/XfYFOBMVXwQeJuzHAl4Dq3aL3XW3ycMMzk/sAjvSEVUOs/sE3jNc728w==
+#-plugin-sig:kPbSffKXouE5EsrU8SGiE6ugjbXpj65qWORCNhzKxXRq7dGERN5xTqhccEyANA/FpSseC6K2i6A+0yPUKaaMP6GHj4TspdMyI017snpFye9WRWQvAcvjxU3C/TnmdNezRPVRqBqH+jc6eS5JwXEWnvk0Ww8pZPu8GJxVYorjz1h2djMAH8WMDAqMREuX74vpIFp02SaCXtnddIr7+uq0jdVVfMmM3pFkn/QA+aDc8mouTUk+NJ/d+RrY4yY1mZLMkHhIxliJ0yY2yost5t5D2UYI46qB3habMGp6R9AsfcQwZCU/qsLQ64KytksnOSGbSm0Ftzs1r1kWWD35//l8+w==
 import json
 import requests
 
@@ -64,7 +64,7 @@ class AzubuTV(Plugin):
         channel_info = requests.get(stream_video_url.format(channel))
         j = json.loads(channel_info.text)
 
-        if j["data"]["is_live"] != True:
+        if 'data' in j and 'is_live' in j["data"] and j["data"]["is_live"] != True:
             return "", False
         else:
             is_live = True
