@@ -1,0 +1,16 @@
+#!/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+ACEADDON=$(readlink -f $(dirname $0))
+ACECHROOT="androidfs"
+
+if mount | grep -E "( $ACEADDON/$ACECHROOT/proc | $ACEADDON/$ACECHROOT/sys | $ACEADDON/$ACECHROOT/dev )" >/dev/null; then
+  if [ $? -eq 0 ]; then
+   pkill -9 -f "/acestream.engine/python/bin/python" &>/dev/null
+   pkill -9 -f "/system/bin/acestream.sh" &>/dev/null
+   #unmount directories
+   umount $ACEADDON/$ACECHROOT/proc &>/dev/null
+   umount $ACEADDON/$ACECHROOT/sys &>/dev/null
+   umount $ACEADDON/$ACECHROOT/dev &>/dev/null
+  fi
+fi

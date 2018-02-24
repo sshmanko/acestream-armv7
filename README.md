@@ -16,8 +16,8 @@ http://<IP>:6878/webui/api/service?method=get_version&format=jsonp&callback=myca
 ## Installation
 
 1. Unzip latest release to /opt/acestream
-2. Copy acestream-user.conf.example to acestream-user.conf and change user/password
-3. Run /opt/acestream/autostart.sh
+2. Edit acestream.conf - change --login and --password
+3. Run /opt/acestream/acestream.start
 
    -OR-
 
@@ -28,13 +28,5 @@ http://<IP>:6878/webui/api/service?method=get_version&format=jsonp&callback=myca
 
 ## Uninstallation
 
-1. Stop acestream service / kill process
-2. umount /opt/acestream/androidfs/{dev,proc,sys}
+1. Stop acestream service by running /opt/acestream/acestream.stop
 3. rm -rf /opt/acestream
-
-
-## Upgrade
-
-1. Stop acestream service / kill process
-2. Unzip latest release to /opt/acestream
-3. Start service / process

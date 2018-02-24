@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Ace Stream</title>
+
+<style type="text/css">
+* {
+    font-family: Arial;
+}
+body {
+    background-color: #222
+}
+</style>
+
+<!-- black style -->
+<link type="text/css" rel="stylesheet" href="http://static.torrentstream.org/jsapi/css/ts-controls-black.css" />
+
+<!-- api files -->
+<script src="http://static.acestream.net/jsapi-beta/js/lib/ts/core.js"></script>
+<script src="http://static.acestream.net/jsapi-beta/js/lib/jquery/jquery-1.7.min.js"></script>
+<script src="http://static.acestream.net/jsapi-beta/js/lib/ts/player.js"></script>
+<script src="http://static.acestream.net/jsapi-beta/js/lib/ts/controls.js"></script>
+
+<script type="text/javascript">
+function init() {
+    var controls = new TorrentStream.Controls("tsplayer", {
+            style: "internal",
+            debug: true
+    });
+
+    try {
+        var player = new TorrentStream.Player(controls.getPluginContainer(), {
+                debug: true,
+                useInternalControls: true,
+                bgColor: "#000000",
+                fontColor: "#ffffff",
+                onLoad: function() {
+                    this.registerEventHandler(controls);
+                    controls.attachPlayer(this);
+                    try {
+                        var p = this;
+                        this.loadPlayer("{player_id}", {autoplay: {autoplay}});
+                    }
+                    catch(e) {
+                        console.log("init: " + e);
+                    }
+                }
+        });
+    }
+    catch(e) {
+        console.log(e);
+        controls.onSystemMessage(e);
+    }
+}
+</script>
+
+</head>
+
+<body>
+
+    <div id="player_container" style="background-color: #000; width: 800px; height: 483px; margin: 100px auto 0 auto;">
+        <div id="tsplayer" style="width: 100%; height: 100%; color: #fff; text-align: center;">
+            <div style="padding-top: 232px; background-color: #000000;">Подождите, идет загрузка плеера...</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    init();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+html {
+    font-family: Tahoma;
+    font-size: 12px;
+}
+
+#notification {
+	display: none;
+    position: absolute;
+    width: 100%;
+    background-color: rgba(217, 237, 247, 0.8);
+	color: #3789b9;
+    font-size: 16px;
+    text-align: center;
+    left: 0;
+    top: 100%;
+    z-index: 1001;
+	line-height: 55px;
+	/*border-radius: 10px 10px 0 0;*/
+}
+#notification.error {
+	background-color: rgba(252, 223, 219, 0.8);
+	color: #c54a3a;
+}
+textarea, select, input[type=text] {
+    width: 500px;
+}
+.data-table th, .data-table td {
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #888;
+    padding: 6px 10px;
+}
+.data-table th {
+    border-top: 1px solid #888;
+}
+
+.tab-menu {
+	list-style: none;
+	background: none;
+	border: none;
+	position: absolute;
+	top: -107px;
+	z-index: 10001;
+	height: 60px;
+	padding: 5px 0 0 !important;
+}
+.tab-menu li {
+	display: inline-block;
+	line-height: 60px;
+	margin-top: 0 !important;
+}
+.ui-tabs .tab-menu.ui-tabs-nav .ui-tabs-anchor {
+	padding: 0;
+	color: #717171;
+    font-weight: normal;
+	font-size: 11px;
+    padding: 0 30px 0 27px;
+    text-transform: uppercase;
+}
+.ui-tabs .tab-menu.ui-tabs-nav .ui-tabs-active .ui-tabs-anchor {
+ color: #444444;
+}
+#playlist, #broadcast_list {
+	position: relative;
+	width: 100%;
+}
+#server table{
+	width: 100%;
+	border-right: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+}
+#server th{
+	background: #5493b8 none repeat scroll 0 0;
+    color: #f1f1f1;
+    height: 36px;
+    line-height: 36px;
+}
+#server th input[type="checkbox"] {
+	margin: 0;
+}
+#server th,
+#server td{
+	font-size: 14px;
+    font-weight: normal;
+}
+td.break {
+	word-break: break-all;
+}
+#server td {
+	border-left: 1px solid #efefef;
+    border-top: 1px solid #efefef;
+    border-bottom: none;
+    color: #717171;
+}
+.control-group .controls label {
+	display: inline-block;
+	margin: 0 15px 0 5px;
+}
+.control-group .controls input[type="radio"],
+.control-group .controls input[type="checkbox"] {
+	margin: 0;
+}
+.widget-content .widget-title {
+	margin-top: -22px;
+}
+.widget-content .widget-title h5 {
+	color: #434343;
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+    padding: 0 0 0 30px;
+	line-height: 36px;
+}
+#create_stream [class^="icon-"],
+#create_stream [class*=" icon-"] {
+	background-image: url(../images/glyphicons-halflings.png);
+	margin: 0 3px;
+}
+
+.scroll-text {
+	color: #fff;
+	position: absolute;
+	left: 294px;
+    right: 0;
+    top: 37px;
+	line-height: 53px;
+	padding: 0 10px;
+    width: auto;
+    cursor: default;
+}
+.with-icon span {
+	float: left;
+	width: 93%;
+}
+.with-icon a {
+	float: right;
+}
+
+#server .popup .wrap {
+	background: #fff;
+	width: 70%;
+	padding: 40px 20px 20px;
+	border-radius: 10px;
+	position: absolute;
+	top: -100%;
+	left: 15%;
+}
+#server .popup .container-fluid {
+	padding: 0;
+}
+#server .popup .close {
+	background: none;
+	opacity: 0.7;
+	width: 14px;
+	height: 14px;
+	padding: 5px;
+	top: 10px;
+	right: 20px;
+}
+#server .popup .close:hover {
+	opacity: 1;
+}
+#server .popup .close .icon {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+#server .popup  .widget-box {
+	margin: 0;
+}
+#sub-header .main-icon i.icon-broadcast {
+	background-image: url(../images/icon-broadcast.png);
+	background-position: 0 0;
+}
+#sub-header .main-icon i.icon-proxy {
+	background-image: url(../images/icon-proxy.png);
+	background-position: 0 0;
+	width: 25px;
+	height: 24px;
+	margin-left: 25px;
+	margin-top: 20px;
+}

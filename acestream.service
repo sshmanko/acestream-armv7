@@ -4,7 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/acestream/autostart.sh
+ExecStart=/opt/acestream/acestream.start
+ExecStop=/opt/acestream/acestream.stop
 Restart=on-abort
 
 [Install]

@@ -4,46 +4,39 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 ACEADDON=$(readlink -f $(dirname $0))
 ACECHROOT="androidfs"
 
-if ! [ $(id -u) = 0 ]; then
-   PERMISSION=sudo
-fi
-
 if mount | grep -E "( $ACEADDON/$ACECHROOT/proc | $ACEADDON/$ACECHROOT/sys | $ACEADDON/$ACECHROOT/dev )" >/dev/null; then
   if [ $? -eq 0 ]; then
-   $PERMISSION pkill -9 -f "/system/data/data/org.acestream.engine/files/python/bin/python" &>/dev/null
-   $PERMISSION pkill -9 -f "/system/bin/acestream.sh" &>/dev/null
+   pkill -9 -f "/acestream.engine/python/bin/python" &>/dev/null
+   pkill -9 -f "/system/bin/acestream.sh" &>/dev/null
    #unmount directories
-   $PERMISSION umount $ACEADDON/$ACECHROOT/proc &>/dev/null
-   $PERMISSION umount $ACEADDON/$ACECHROOT/sys &>/dev/null
-   $PERMISSION umount $ACEADDON/$ACECHROOT/dev &>/dev/null
-   sleep 2
+   umount $ACEADDON/$ACECHROOT/proc &>/dev/null
+   umount $ACEADDON/$ACECHROOT/sys &>/dev/null
+   umount $ACEADDON/$ACECHROOT/dev &>/dev/null
   fi
 fi
 
-$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/system
-$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/storage
-$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/dev
-$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/proc
-$PERMISSION mkdir -p $ACEADDON/$ACECHROOT/sys
+mkdir -p $ACEADDON/$ACECHROOT/system
+mkdir -p $ACEADDON/$ACECHROOT/storage
+mkdir -p $ACEADDON/$ACECHROOT/dev
+mkdir -p $ACEADDON/$ACECHROOT/proc
+mkdir -p $ACEADDON/$ACECHROOT/sys
+mkdir -p $ACEADDON/$ACECHROOT/system/etc
 
-$PERMISSION mount -o bind /dev $ACEADDON/$ACECHROOT/dev &>/dev/null
-$PERMISSION mount -t proc proc $ACEADDON/$ACECHROOT/proc &>/dev/null
-$PERMISSION mount -t sysfs sysfs $ACEADDON/$ACECHROOT/sys &>/dev/null
+[ ! -f $ACEADDON/$ACECHROOT/system/etc/resolv.conf ] && cp -L /etc/resolv.conf $ACEADDON/$ACECHROOT/system/etc/resolv.conf
 
-$PERMISSION chown -R root:root $ACEADDON/$ACECHROOT/system
-$PERMISSION find $ACEADDON/$ACECHROOT/system -type d -exec chmod 755 {} \;
-$PERMISSION find $ACEADDON/$ACECHROOT/system -type f -exec chmod 644 {} \;
-$PERMISSION chmod 755 $ACEADDON/$ACECHROOT/system/bin/* $ACEADDON/$ACECHROOT/system/data/data/org.acestream.engine/files/python/bin/python
-[ -n "$RUNAS" ] && $PERMISSION chown -R $RUNAS $ACEADDON/$ACECHROOT/storage
+if [ ! -f $ACEADDON/$ACECHROOT/system/etc/hosts ]; then
+  cp -L /etc/hosts $ACEADDON/$ACECHROOT/system/etc/hosts
+  echo "67.215.246.10 router.bittorrent.com" >> $ACEADDON/$ACECHROOT/system/etc/hosts
+  echo "87.98.162.88 dht.transmissionbt.com" >> $ACEADDON/$ACECHROOT/system/etc/hosts
+fi
 
-[ -n "$RUNAS" ] && USERSPEC="--userspec=$RUNAS"
-$PERMISSION chroot $USERSPEC $ACEADDON/$ACECHROOT /system/bin/sh -c "cd /system/data/data/org.acestream.engine/files ; /system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1 - << EOF
+mount -o bind /dev $ACEADDON/$ACECHROOT/dev &>/dev/null
+mount -t proc proc $ACEADDON/$ACECHROOT/proc &>/dev/null
+mount -t sysfs sysfs $ACEADDON/$ACECHROOT/sys &>/dev/null
 
-from acestreamengine import Core
+chown -R root:root $ACEADDON/$ACECHROOT/system
+find $ACEADDON/$ACECHROOT/system -type d -exec chmod 755 {} \;
+find $ACEADDON/$ACECHROOT/system -type f -exec chmod 644 {} \;
+chmod 755 $ACEADDON/$ACECHROOT/system/bin/* $ACEADDON/$ACECHROOT/acestream.engine/python/bin/python
 
-params = "$@".split(' ')
-if params == ['']:
-    params = []
-
-Core.run(params)
-EOF
+chroot $ACEADDON/$ACECHROOT /system/bin/busybox sh -c "/system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1 || true
