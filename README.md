@@ -16,7 +16,7 @@ http://<IP>:6878/webui/api/service?method=get_version&format=jsonp&callback=myca
 ## Installation
 
 1. Unzip latest release to /opt/acestream
-2. Edit acestream.conf - change --login and --password
+2. Edit androidfs/acestream.engine/acestream.conf: change --login and --password
 3. Run /opt/acestream/acestream.start
 
    -OR-
