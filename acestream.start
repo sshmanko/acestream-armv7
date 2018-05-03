@@ -27,7 +27,8 @@ mkdir -p $ACEADDON/$ACECHROOT/system/etc
 if [ ! -f $ACEADDON/$ACECHROOT/system/etc/hosts ]; then
   cp -L /etc/hosts $ACEADDON/$ACECHROOT/system/etc/hosts
   echo "67.215.246.10 router.bittorrent.com" >> $ACEADDON/$ACECHROOT/system/etc/hosts
-  echo "87.98.162.88 dht.transmissionbt.com" >> $ACEADDON/$ACECHROOT/system/etc/hosts
+  echo "212.129.33.59 dht.transmissionbt.com" >> $ACEADDON/$ACECHROOT/system/etc/hosts
+  echo "82.221.103.244 router.utorrent.com" >> $ACEADDON/$ACECHROOT/system/etc/hosts
 fi
 
 mount -o bind /dev $ACEADDON/$ACECHROOT/dev &>/dev/null
@@ -39,4 +40,4 @@ find $ACEADDON/$ACECHROOT/system -type d -exec chmod 755 {} \;
 find $ACEADDON/$ACECHROOT/system -type f -exec chmod 644 {} \;
 chmod 755 $ACEADDON/$ACECHROOT/system/bin/* $ACEADDON/$ACECHROOT/acestream.engine/python/bin/python
 
-chroot $ACEADDON/$ACECHROOT /system/bin/busybox sh -c "/system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1 || true
+chroot $ACEADDON/$ACECHROOT /system/bin/busybox sh -c "/system/bin/acestream.sh" > $ACEADDON/acestream.log 2>&1

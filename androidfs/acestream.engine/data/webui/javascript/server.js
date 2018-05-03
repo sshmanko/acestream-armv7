@@ -537,7 +537,8 @@ function show_page(page_id, details) {
     update_active_quick_nav();
 }
 
-function set_breadcrumb_path(path) {
+function set_breadcrumb_path(path) 
+{
     $("#breadcrumb-path").empty();
     for(var i=0, len=path.length; i < len; i++) {
         var $a = $('<a href="#">');
@@ -567,7 +568,8 @@ function load_remote_content()
     }, 43200000);
 }
 
-function load_remote_content_once(tries) {
+function load_remote_content_once(tries) 
+{
     var i, j, len, jlen,
         max_tries = 5,
         retry_interval = 5000,
@@ -914,10 +916,22 @@ function update_current_locale()
         'en_EN': 'EN',
         'ru_RU': 'RU',
     };
-
-    if(localeNames[params.locale] === undefined) {
-        params.locale = "en_EN";
+    
+    //--START MOD by !Joy! for Dorik--// 
+    if(localeNames[params.locale] === undefined) {           
+        //Движок не реагирует на смену языка, поэтому приходится его принуждать.
+        //Выбор языка будет устанавливаться автоматически в русский если локализация браузера русская...
+        var language = (window.navigator.language ||
+                        window.navigator.systemLanguage || 
+                        window.navigator.userLanguage);
+        language = language.substr(0, 2).toLowerCase();
+        if(language === "ru") {
+            params.locale = "ru_RU";
+        } else {
+            params.locale = "en_EN";
+        }
     }
+    //--END MOD by !Joy! for Dorik--//
 
     $("#current-locale-name-short").html(localeNames[params.locale]);
 }
@@ -946,6 +960,162 @@ function reload_locale(skip_remote_content_reload)
     });
 }
 
+
+//--START MOD by !Joy! for Dorik--//
+//Получаем настройки движка, добавляем их в глобальный объект params и устанавливаем значения на странице.
+function update_engine_settings(timeout)
+{
+    if(timeout === undefined || isNaN(timeout)) {
+        var timeout = 60000;
+    }
+    
+    $.ajax({
+        url: 'settings/get',
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        timeout: timeout,
+
+        success: function(response) {
+            if(typeof response != 'object') {
+                alert("Ошибка!!!\n Не получены настройки движка ответ сервера не в JSON");
+                return;
+            }
+            $.extend(params, response);    
+
+            $("#live_buffer").val(params.live_buffer);
+            $("#vod_buffer").val(params.vod_buffer);
+            $("#download_limit").val(params.download_limit);
+            $("#upload_limit").val(params.upload_limit);
+            $("#max_connections").val(params.max_connections);
+            $("#max_peers").val(params.max_peers);
+            if(params.live_cache_type === "disk") {
+                $("#live_cache_type").attr("checked", true);
+            }
+            if(params.vod_cache_type === "disk") {
+                $("#vod_cache_type").attr("checked", true);
+            }
+            $("#disk_cache_limit").val(params.disk_cache_limit/1048576);
+            $("#cache_dir").val(params.cache_dir);
+            $("#memory_cache_limit").val(params.memory_cache_limit/1048576);
+            $("#port").val(params.port);
+            $("#acestream_login").val(params.login);
+            $("#acestream_password").val("");
+        },
+
+        error: function(response) {
+            console.log(response);
+            alert("Ошибка!!!\n Не получены настройки движка");
+        },
+    });
+}
+
+// Передаем движку новую настройку.
+function set_engine_settings(data)
+{
+    if(timeout === undefined || isNaN(timeout)) {
+        var timeout = 60000;
+    }    
+    if(!data) {
+        var data = {}
+    }
+    
+    $.ajax({
+        url: 'settings/set',
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        data: data,
+        timeout: timeout,
+
+        success: function(response) {
+            if(typeof response != 'object' || response.status != "success") {
+                alert("Ошибка!!!\n Не сохраненны настройки движка.");
+                return;
+            }
+            update_engine_settings();
+        },
+
+        error: function(response) {
+            console.log(response);
+            alert("Ошибка!!!\n Не сохраненны настройки движка. Нет ответа от AceStream");
+            update_engine_settings();
+        },
+    });
+
+}
+
+// Запрос на очистку кеша
+function clearCacheEngene(control_element)
+{
+    var old_value = $(control_element).html();
+    $(control_element).html("Обрабатываю...").addClass("disabled");
+        
+    if(timeout === undefined || isNaN(timeout)) {
+        var timeout = 60000;
+    }
+    
+    $.ajax({
+        url: 'cmd/clearcache',
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        timeout: timeout,
+
+        success: function(response) {
+            if(typeof response != 'object' || response.status != "success") {
+                $(control_element).html(old_value).removeClass("disabled");
+                alert("Ошибка!!!\nОперация не выполнена.");
+                return;
+            }
+            $(control_element).html(old_value).removeClass("disabled");
+        },
+
+        error: function(response) {
+            console.log(response);
+            $(control_element).html(old_value).removeClass("disabled");
+            alert("Ошибка!!!\nОперация не выполнена. Нет ответа от AceStream");
+        },
+    });
+}
+
+//Запрос на смену логина и пароля ace stream
+function setEngineLoginAndPassword(data)
+{
+    if(timeout === undefined || isNaN(timeout)) {
+        var timeout = 60000;
+    }    
+    if(!data) {
+        var data = {}
+    }
+    
+    $.ajax({
+        url: 'user/login',
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        data: data,
+        timeout: timeout,
+
+        success: function(response) {
+            if(typeof response != 'object') {
+                alert("Ошибка!!!\n Логин и пароль возможно не сохранены!!!");
+                return;
+            }
+            update_engine_settings();
+        },
+
+        error: function(response) {
+            console.log(response);
+            alert("Ошибка!!!/n Логин и пароль не сохранены!!! Нет ответа от AceStream");
+            update_engine_settings();
+        },
+    });
+}
+
+//--END MOD by !Joy! for Dorik--//
+
+
 function update_settings()
 {
     sendRequest({
@@ -955,6 +1125,14 @@ function update_settings()
             function(response) {
                 var prev_locale = params.locale,
                     prev_media_owner = params.current_media_owner;
+                    
+                //--START MOD by !Joy! for Dorik--//    
+                //Движок не реагирует на смену языка, поэтому приходится его принуждать.
+                //Выбор языка будет сохранятся в текущем сеансе.
+                if($('#current-locale-name-short').text() === "RU") {
+                    response.locale = "ru_RU";
+                }
+                //--END MOD by !Joy! for Dorik--//
 
                 $.extend(params, response);
 

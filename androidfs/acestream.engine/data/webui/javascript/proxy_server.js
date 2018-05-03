@@ -501,7 +501,9 @@ function reload_playlist(details) {
             request['is_favorite'] = 1;
         }
         else {
-            request['subcategory'] = subcategory;
+        //--START MOD by !Joy! for Dorik--//
+            request['subcategory'] = subcategory.toLowerCase();
+        //--END MOD by !Joy! for Dorik--//
         }
     }
 
@@ -896,7 +898,20 @@ function reload_playlist_url(ip_list)
         currentCategory = $("#filter-category").val(),
         categories = ["movies", "tv", "music", "music_video", "other"],
         allow_remote_access = !!$("#allow_remote_access").is(":checked"),
-        allow_intranet_access = !!$("#allow_intranet_access").is(":checked");
+        allow_intranet_access = !!$("#allow_intranet_access").is(":checked"),
+    //--START MOD by !Joy! for Dorik--//
+        currentSubCategory = $("#filter-subcategory").val();
+        
+    if (currentSubCategory === "_all_") {
+        currentSubCategory = "";
+    } else if ( currentSubCategory === "_favorite_") {
+        currentSubCategory = "&is_favorite=1";
+    } else if (!currentSubCategory) {
+        currentSubCategory = "";
+    } else {
+        currentSubCategory = "&subcategory=" + currentSubCategory.toLowerCase();;
+    }
+    //--END MOD by !Joy! for Dorik--//
 
     var $current = $("#playlist-url-popup .current-playlist");
     var $other_local_address = $("#playlist-url-popup .other-playlists .local-address .url-list");
@@ -944,7 +959,9 @@ function reload_playlist_url(ip_list)
         if(params.client_ip == "127.0.0.1") {
             // add localhost
             url = "http://127.0.0.1:"+params.http_port+"/playlist/"+params.playlist_id+".m3u";
-            category_url = url + '?category='+category;
+        //--START MOD by !Joy! for Dorik--//
+            category_url = url + '?category='+category+currentSubCategory;
+        //--END MOD by !Joy! for Dorik--//
 
             if(isCurrent) {
                 $current.append('<div>'+__('local-address')+': <a href="'+category_url+'" target="_blank">'+category_url+'</a></div>');
@@ -959,7 +976,9 @@ function reload_playlist_url(ip_list)
                 // local ip list
                 for(j=0; j<ip_list.length; j++) {
                     url = "http://"+ip_list[j]+":"+params.http_port+"/playlist/"+params.playlist_id+".m3u";
-                    category_url = url + '?category='+category;
+                //--START MOD by !Joy! for Dorik--//
+                    category_url = url + '?category='+category+currentSubCategory;
+                //--END MOD by !Joy! for Dorik--//
                     if(isCurrent) {
                         $current.append('<div>'+__('local-network')+': <a href="'+category_url+'" target="_blank">'+category_url+'</a></div>');
                     }
@@ -974,7 +993,9 @@ function reload_playlist_url(ip_list)
             if(params.external_ip) {
                 // external ip
                 url = "http://"+params.external_ip+":"+params.http_port+"/playlist/"+params.playlist_id+".m3u";
-                category_url = url + '?category='+category;
+            //--START MOD by !Joy! for Dorik--//
+                category_url = url + '?category='+category+currentSubCategory;
+            //--END MOD by !Joy! for Dorik--//
                 if(isCurrent) {
                     $current.append('<div>'+__('remote-access')+': <a href="'+category_url+'" target="_blank">'+category_url+'</a></div>');
                 }
@@ -1364,7 +1385,15 @@ function update_visible_playlist_items()
                     if(response.playlist) {
                         for(var i=0; i<response.playlist.length; i++) {
                             var item = response.playlist[i];
-                            $("#playlist-item-row-" + item.id).html(render_playlist_item_row(item));
+                            //--START MOD by !Joy! for Dorik--//
+                            var row = $("#playlist-item-row-" + item.id),
+                                checked = row.find('.playlist-check-item').prop('checked') ? true : false;
+                            row.html(render_playlist_item_row(item));
+                            if (checked) {
+                                row.find('.playlist-check-item').prop('checked',true);
+                            }
+                            //$("#playlist-item-row-" + item.id).html(render_playlist_item_row(item));
+                            //--END MOD by !Joy! for Dorik--//
                         }
                     }
                 }

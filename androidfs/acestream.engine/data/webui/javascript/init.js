@@ -778,6 +778,158 @@ $("#button-add-external-hls-playlist").click(function() {
         );
 });
 
+//--START MOD by !Joy! for Dorik--//
+$("#live_buffer").change(function() {
+        var prev_value = params.live_buffer,
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {
+            set_engine_settings({'live_buffer':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#vod_buffer").change(function() {
+        var prev_value = params.vod_buffer,
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {
+            set_engine_settings({'vod_buffer':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#download_limit").change(function() {
+        var prev_value = params.download_limit;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {           
+            set_engine_settings({'download_limit':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#upload_limit").change(function() {
+        var prev_value = params.upload_limit;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {           
+            set_engine_settings({'upload_limit':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#max_connections").change(function() {
+        var prev_value = params.max_connections;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {           
+            set_engine_settings({'max_connections':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#max_peers").change(function() {
+        var prev_value = params.max_peers;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {           
+            set_engine_settings({'max_peers':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#live_cache_type").change(function() {
+        var state = !!$(this).is(":checked"),
+            value = state?"disk":"memory";
+            
+        set_engine_settings({'live_cache_type':value});        
+});
+
+$("#vod_cache_type").change(function() {
+        var state = !!$(this).is(":checked"),
+            value = state?"disk":"memory";
+        
+        set_engine_settings({'vod_cache_type':value});        
+});
+
+$("#disk_cache_limit").change(function() {
+        var prev_value = params.disk_cache_limit;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {
+            value = value * 1048576;
+            set_engine_settings({'disk_cache_limit':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#cache_dir").change(function() {
+        var prev_value = params.cache_dir;
+            value = $(this).val();
+        if(confirm("Уверены, что ввели существующий путь к папке кеша на устройстве?\n" + 
+                    value + "\nпри ошибке работоспособность движка будет нарушена!!!")) {
+            set_engine_settings({'cache_dir':value});
+        } else {
+            $(this).val(prev_value);
+        }
+});
+
+$("#memory_cache_limit").change(function() {
+        var prev_value = params.memory_cache_limit;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {
+            value = value * 1048576;
+            set_engine_settings({'memory_cache_limit':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#port").change(function() {
+        var prev_value = params.port;
+            value = parseInt($(this).val());
+        if(!isNaN(value) && value >= 0) {           
+            set_engine_settings({'port':value});
+        } else {
+            alert("Недопустимое значение");
+            $(this).val(prev_value);
+        }
+});
+
+$("#save_acestream_log_pass").click(function() {
+        var prev_value_login = params.login?params.login:"",
+            fild_login = $('#acestream_login'),
+            fild_pass = $('#acestream_password'),             
+            value_login = fild_login.val()?fild_login.val():"",
+            value_password = fild_pass.val()?fild_pass.val():"";
+            
+        if(confirm("Подтвердите корректность введенных данных\nЛогин: " + value_login + "\nПароль: " +  value_password)) {
+
+        setEngineLoginAndPassword({'email': value_login, 'password': value_password });
+        } else {
+            fild_login.val(prev_value_login);
+            fild_pass.val("");
+        }
+});
+
+$("#clear_cache").click(function() {
+    if(!$(this).hasClass("disabled")) {
+        clearCacheEngene(this);
+    }
+});
+
+//--END MOD by !Joy! for Dorik--//
+
+
 $("body").on("click", ".show-page", function() {
         var pageId = $(this).attr("href");
         if(pageId) {
@@ -1109,7 +1261,22 @@ function enable_page_scrolling() {
 function init_playlist_url_popup()
 {
     var currentCategory = $("#filter-category").val();
-    $("#playlist-url-popup .current-category-name").text(__(currentCategory));
+    
+    //--START MOD by !Joy! for Dorik--//
+    var currentSubCategory = $("#filter-subcategory").val();
+    
+    if (currentSubCategory === "_all_") {
+        currentSubCategory = "";
+    } else if ( currentSubCategory === "_favorite_") {
+        currentSubCategory = " (" + __("favorite") + ")";
+    } else if (!currentSubCategory) {
+        currentSubCategory = "";
+    } else {
+        currentSubCategory = " (" + currentSubCategory + ")";
+    }
+    
+    $("#playlist-url-popup .current-category-name").text(__(currentCategory) + currentSubCategory);
+    //--END MOD by !Joy! for Dorik--//
 }
 
 function open_playlist_url_popup()
@@ -1405,6 +1572,12 @@ load_remote_content();
 
 // update server settings
 update_settings();
+
+//--START MOD by !Joy! for Dorik--//
+// update engine settings
+update_engine_settings();
+//--END MOD by !Joy! for Dorik--//
+
 
 // set current search type
 update_search_type();

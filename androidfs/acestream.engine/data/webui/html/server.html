@@ -46,6 +46,7 @@
 <link rel="stylesheet" href="/webui/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="/webui/css/font-awesome.min.css">
 <link rel="stylesheet" href="/webui/css/jquery.mCustomScrollbar.css" />
+<link rel="stylesheet" href="/webui/css/flags16.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <script>
@@ -74,8 +75,9 @@ var current_page_ = "#proxy-server-playlist",
 		<h1>
 			<a href="https://accounts.acestream.net/home"><img src="/webui/images/logo.png" alt="Ace Stream"></a>
 		</h1>
-		<marquee id="info-string" class="scroll-text" behavior="scroll" direction="left" scrollamount="2" scrolldelay="60" loop="-1" onmouseover="try{this.stop();}catch(e){}" onmouseout="try{this.start();}catch(e){}">
-		</marquee>
+		<marquee id="info-string" class="scroll-text f24" behavior="scroll" direction="left" scrollamount="5" scrolldelay="60" loop="-1" onmouseover="try{this.stop();}catch(e){}" onmouseout="try{this.start();}catch(e){}">
+		This web interface modded by !Joy!(c) for AceStream Media Dorik MOD<span class="flag ua flag-inline"></span>
+        </marquee>
 	</div>
 
 	<div id="user-nav" class="navbar navbar-inverse">
@@ -150,6 +152,11 @@ var current_page_ = "#proxy-server-playlist",
 					<li>
 						<a href="https://accounts.acestream.net/help/ask">
 							<span class="translate" data-string-id="help"></span>
+						</a>
+					</li>
+                    <li>
+						<a href="https://4pda.ru/forum/index.php?showtopic=737440" target="_blank>
+							<span class="translate" data-string-id="4pda">AceStreamMOD 4PDA</span>
 						</a>
 					</li>
 				</ul>
@@ -428,26 +435,52 @@ var current_page_ = "#proxy-server-playlist",
 
 							<!-- Server settings tab -->
 							<div id="tab-server-settings" class="form-horizontal">
-								<div class="control-group">
-									<label class="control-label translate" data-string-id="auto-sync"></label>
+								
+                                <!--mod by !Joy! for Doric-->
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="live-buffer-time">Buffer Live sec</label>
 									<div class="controls">
-										<input type="checkbox" id="auto_sync" value="1" />
+										<input type="text" id="live_buffer" value="">
 									</div>
 								</div>
-
-								<div class="control-group">
-									<label class="control-label translate" data-string-id="allow-remote-access"></label>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="vod-buffer-time">Buffer VOD sec</label>
 									<div class="controls">
-										<input type="checkbox" id="allow_remote_access" value="1" />
+										<input type="text" id="vod_buffer" value="">
 									</div>
 								</div>
-
-								<div class="control-group">
-									<label class="control-label translate" data-string-id="allow-intranet-access"></label>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="download-limit">Max download limit Kb/sec</label>
 									<div class="controls">
-										<input type="checkbox" id="allow_intranet_access" value="1" />
+										<input type="text" id="download_limit" value="">
 									</div>
 								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="upload-limit">Max upload limit Kb/sec</label>
+									<div class="controls">
+										<input type="text" id="upload_limit" value="">
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="max-connections">Max connections</label>
+									<div class="controls">
+										<input type="text" id="max_connections" value="">
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="max-peers">Max peers</label>
+									<div class="controls">
+										<input type="text" id="max_peers" value="">
+									</div>
+								</div>                           
+                                
+                                <!--/mod by !Joy! for Doric-->       
+                                
 
 								<div class="control-group">
 									<label class="control-label translate" data-string-id="live-stream-type"></label>
@@ -475,7 +508,53 @@ var current_page_ = "#proxy-server-playlist",
 									</div>
 								</div>
 
-								<div class="control-group">
+								<!--mod by !Joy! for Doric-->
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="live-cache-type">Used disk for Live</label>
+									<div class="controls">
+										<input type="checkbox" id="live_cache_type"/><!--memory or disk if disk checked-->
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="vod-cache-type">Used disk for VOD</label>
+									<div class="controls">
+										<input type="checkbox" id="vod_cache_type"/><!--memory or disk, if disk checked-->
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="disk-cache-limit">Disk cashe limit</label>
+									<div class="controls">
+										<input type="text" id="disk_cache_limit" value="">
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="cache-dir">Path for cashe</label>
+									<div class="controls">
+										<input type="text" id="cache_dir" value="">
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="clear-cache">Clear cache</label>
+									<div class="controls">
+										<button class="btn btn-info translate" id="clear_cache" data-string-id="clear-cache">Clear cache</button>
+									</div>
+								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="memory-cache-limit">Memory cashe limit</label>
+									<div class="controls">
+										<input type="text" id="memory_cache_limit" value="">
+									</div>
+								</div>
+                                <!--/mod by !Joy! for Doric-->  
+                                
+                                
+                                
+                                <div class="control-group">
 									<label class="control-label translate" data-string-id="audio-transcoding"></label>
 									<div class="controls">
 										<input type="checkbox" id="transcode_audio" value="1" /><label for="transcode_audio" class="translate" data-string-id="transcode-to-aac"></label>
@@ -485,7 +564,38 @@ var current_page_ = "#proxy-server-playlist",
 										<input type="checkbox" id="transcode_ac3" value="1" /><label for="transcode_ac3" class="translate" data-string-id="transcode-ac3-only"></label>
 									</div>
 								</div>
+                                
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="auto-sync"></label>
+									<div class="controls">
+										<input type="checkbox" id="auto_sync" value="1" />
+									</div>
+								</div>
 
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="allow-remote-access"></label>
+									<div class="controls">
+										<input type="checkbox" id="allow_remote_access" value="1" />
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label translate" data-string-id="allow-intranet-access"></label>
+									<div class="controls">
+										<input type="checkbox" id="allow_intranet_access" value="1" />
+									</div>
+								</div>
+
+                                
+                                <!--mod by !Joy! for Doric-->
+                                <div class="control-group">
+									<label class="control-label translate" data-string-id="port">Port Web Interface</label>
+									<div class="controls">
+										<input type="text" id="port" value="">
+									</div>
+								</div>
+                                <!--/mod by !Joy! for Doric-->                                
+                                
 								<div class="control-group">
 									<label class="control-label translate" data-string-id="audio-lang"></label>
 									<div class="controls">
@@ -551,6 +661,24 @@ var current_page_ = "#proxy-server-playlist",
 									</div>
 								</div>
 
+                                <!--mod by !Joy! for Doric-->
+                                <div class="control-group">
+                                <form>
+									<label class="control-label translate" data-string-id="acestream-login">Login</label>
+									<div class="controls">
+										<input type="text" id="acestream_login" value="">
+									</div>
+                                    <label class="control-label translate" data-string-id="acestream-password">Password</label>
+									<div class="controls">
+										<input type="text" id="acestream_password" value="">
+									</div>
+                                    <div class="controls">
+										<button class="btn btn-warning translate" id="save_acestream_log_pass" data-string-id="save-log-pass">Save</button>
+									</div>
+                                </form>
+								</div>
+                                <!--/mod by !Joy! for Doric-->
+                                
 							</div>
 							<!-- /Server settings tab -->
 
@@ -694,6 +822,10 @@ var current_page_ = "#proxy-server-playlist",
                                         <label class="control-label translate" data-string-id="update-interval"></label>
                                         <div class="controls">
                                             <select id="add-external-playlist-update-interval">
+                                                <!--mod by !Joy! for Doric-->
+                                                <option value="1" class="translate" data-string-id="1h"></option>
+                                                <option value="3" class="translate" data-string-id="3h"></option>
+                                                <!--/mod by !Joy! for Doric-->
                                                 <option value="6" class="translate" data-string-id="6h"></option>
                                                 <option value="12" class="translate" data-string-id="12h"></option>
                                                 <option value="24" class="translate" data-string-id="daily" selected></option>
@@ -1137,6 +1269,10 @@ var current_page_ = "#proxy-server-playlist",
                                     <label class="control-label translate" data-string-id="update-interval"></label>
                                     <div class="controls">
                                         <select id="add-epg-source-update-interval">
+                                            <!--mod by !Joy! for Doric-->
+                                            <option value="1" class="translate" data-string-id="1h"></option>
+                                            <option value="3" class="translate" data-string-id="3h"></option>
+                                            <!--/mod by !Joy! for Doric-->
                                             <option value="6" class="translate" data-string-id="6h"></option>
                                             <option value="12" class="translate" data-string-id="12h"></option>
                                             <option value="24" class="translate" data-string-id="daily" selected></option>
@@ -1160,14 +1296,15 @@ var current_page_ = "#proxy-server-playlist",
 										<div id="webui_url"></div>
 									</div>
 								</div>
-
-								<div class="control-group">
+                                <!--mod by !Joy! for Doric-->
+								<!--div class="control-group">
 									<label class="control-label translate" data-string-id="webui-password"></label>
 									<div class="controls">
 										<input type="text" id="webui_password" value="" />
 										<input class="btn btn-info translate" type="button" id="btn_save_webui_password" value="" data-translate-attr="value" data-string-id="save" />
 									</div>
-								</div>
+								</div-->
+                                <!--/mod by !Joy! for Doric-->
 
 							</div>
 							<!-- /Info panel tab -->
