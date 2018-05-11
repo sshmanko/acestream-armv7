@@ -13,6 +13,12 @@ Engine version can be checked via HTTP:
 http://<IP>:6878/webui/api/service?method=get_version&format=jsonp&callback=mycallback
 ```
 
+Starting from version 3.1.30 WebUI is available at:
+```
+http://<IP>:6878/webui/app/ReplaceMe/server#proxy-server-settings
+```
+(ReplaceMe string is set as --access-token in acestream.conf)
+
 ## Installation
 
 1. Unzip latest release to /opt/acestream
