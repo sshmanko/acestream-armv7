@@ -289,4 +289,6 @@ _LANG['en_EN'] = {
     'fetching-metadata': 'Fetching metadata',
     'got-metadata': 'Got metadata',
     'select-one-of-these-variants': 'Select one of these variants',
+    'login': 'Login',
+    'password': 'Password',
 };

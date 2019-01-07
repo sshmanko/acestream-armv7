@@ -289,4 +289,6 @@ _LANG['ru_RU'] = {
     'fetching-metadata': 'Получение метаданных',
     'got-metadata': 'Метаданные получены',
     'select-one-of-these-variants': 'Выберите один из вариантов',
+    'login': 'Логин',
+    'password': 'Пароль',
 };
